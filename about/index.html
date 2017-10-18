@@ -181,15 +181,36 @@
                 post-container
             ">
 
-                <blockquote>
-<p><strong> 这里会写一些关于我的文字，但是还没有想好，所以一下先放一些文字排版支持…… </strong></p>
-</blockquote>
-<div><br>    <h3>教育</h3><br>    <div><br>        <ul><br>            <li><dl><dt>九江学院</dt><br>                    <dd>信息科学与技术学院</dd><br>                    <dd>信息管理与信息系统专业 学士</dd><br>                </dl><br>            </li><br>        </ul><br>    </div><br></div><br><div><br>    <h3>个人作品</h3><br>    <div><br>        <ul><br>            <li>更新中……</li><br>        </ul><br>    </div><br></div>
+                <div class="me"><br>    <div class="first"><br>        <div class="me__education"><br>            <h2>教育</h2><br>            <ul><br>                <li><span class="secondary">2014.09 ~ 2018.06</span><br>                九江学院 <span class="secondary">本科</span><br>                信息科学与技术学院<br>                信息管理与信息系统专业<br>                </li><br>            </ul><br>        </div><br>        <div class="me__more"><br>            <h2>更多</h2><br>            <ul class="me__more__detail"><br>                <li>Github:<br>                <a href="https://github.com/carlsiry" target="_blank" rel="external">https://github.com/carlsiry</a></li><br>                <li>Blog:<br>                <a href="https://carlsiry.github.io" target="_blank" rel="external">https://carlsiry.github.io</a></li><br>                <li>LearningNote:<br>                <a href="https://carlsiry.github.io/my-learning-journal/" target="_blank" rel="external">https://carlsiry.github.io/my-learning-journal/</a></li><br>                <li><a href="mailto:chenkansheng0@163.com" target="_blank" rel="external">Email: chenkansheng0@163.com</a></li><br>                <li>Phone: 15070207194</li><br>            </ul><br>        </div><br>    </div><br>    <div class="second"><br>        <div class="me__practice"><br>            <h2>经验</h2><br>            <ul><br>                <li><span class="secondary">2017.06 ~ 2017.09 实习</span><br>                江西乾坤软件有限公司 | 初创<br>                参与客户物流系统中部分模块二次开发（Oracle11g、.Net）<br>                具体包括展示界面的设计与实现、JS脚本处理等工作<br>                </li><br>            </ul><br>        </div><br>        <div class="me__skills"><br>            <h2>技能</h2><br>            <ul><br>                <li>HTML5、CSS3、JavaScript 还原设计稿(会PS、Sketch)</li><br>                <li>ES6、DOM、闭包、原型编程</li><br>                <li>Linux操作、Node.js工具与模块自动化构建、Git的基本使用</li><br>                <li>有一定的计算机网络、数据结构、数据库原理基础</li><br>                <li>TypeScript类型与经典继承范式编程</li><br>                <li>Angular使用与构建信息管理系统</li><br>                <li>Rxjs响应式与函数式编程（Redux状态管理）</li><br>                <li>能快速上手常见CSS、组件式JS框架/库</li><br>                <li>有一定的Java(SE、Servlet)、Python(Flask、爬虫)基础</li><br>            </ul><br>        </div><br>    </div><br></div>
+
+<style type="text/css">
+    .me {
+        display: flex;
+        display: -webkit-flex; /* Safari */
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+    .secondary {
+        color: #282828;
+    }
+    h2 {
+        text-align: center;
+    }
+    .me__more__detail {
+        width: 25em;
+    }
+    @media print {
+        .sidebar-container, footer, .printHide {
+            display: none;
+        }
+    }
+</style>
 
 
                 <!-- 如果开启评论功能 -->
                 
-                    <hr>
+                    <hr class="printHide">
 
                     
 
@@ -266,11 +287,11 @@
                             
                         
                             
-                            <a href="/tags/#Python" title="Python" rel="2">Python</a>
+                            <a href="/tags/#前端开发" title="前端开发" rel="4">前端开发</a>
                             
                         
                             
-                            <a href="/tags/#前端开发" title="前端开发" rel="4">前端开发</a>
+                            <a href="/tags/#Python" title="Python" rel="2">Python</a>
                             
                         
                             
