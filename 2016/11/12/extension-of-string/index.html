@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Extension of String - 陈坎生的博客 | Carlsiry&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="carlsiry.io/2016/11/12/extension-of-string/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Carson's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">首页</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">陈坎生</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">归档</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="carlsiry.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#ECMAScript6" title="ECMAScript6">ECMAScript6</a>
+                        
+                          <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                    <h1>Extension of String</h1>
+                    <h2 class="subheading">ES6 字符串的扩展 ——《ECMAScript 6 Primer》学习笔记</h2>
+                    <span class="meta">
+                        Posted by Carson on
+                        2016-11-12
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="字符串的扩展"><a href="#字符串的扩展" class="headerlink" title="字符串的扩展"></a>字符串的扩展</h2><h3 id="字符串的Unicode表示法"><a href="#字符串的Unicode表示法" class="headerlink" title="字符串的Unicode表示法"></a>字符串的Unicode表示法</h3><p><code>&#39;\uxxxx&#39;</code> 反斜杠加码点表示一个字符，编码限定于<code>&#39;\u0000&#39;--&#39;\uFFFF&#39;</code>, 超出范围的字符按原样显示，比如<code>&#39;\u20BB7&#39;</code>=&gt;<code>&quot;₻7&quot;</code>,此时应该用两个双字节的新式表示<code>&#39;\uD842\uDFB7&#39;</code>或者加上大括号<code>\u{20BB7}</code>。</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">"<span class="tag">\<span class="name">u</span><span class="string">&#123;20BB7&#125;</span></span>"</div><div class="line">// "𠮷"</div><div class="line"></div><div class="line">"<span class="tag">\<span class="name">u</span><span class="string">&#123;41&#125;</span></span><span class="tag">\<span class="name">u</span><span class="string">&#123;42&#125;</span></span><span class="tag">\<span class="name">u</span><span class="string">&#123;43&#125;</span></span>"</div><div class="line">// "ABC"</div><div class="line"></div><div class="line">let hello = 123;</div><div class="line">hell<span class="tag">\<span class="name">u</span><span class="string">&#123;6F&#125;</span></span> // 123</div><div class="line"></div><div class="line">// 大括号表示法与四字节的utf-16编码是等价的</div><div class="line">'<span class="tag">\<span class="name">u</span><span class="string">&#123;1F680&#125;</span></span>' === '<span class="tag">\<span class="name">uD</span></span>83D<span class="tag">\<span class="name">uDE</span></span>80'</div><div class="line">// true</div></pre></td></tr></table></figure>
+<p><strong>Javascript</strong> 表示字符的六种方法：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="string">'\z'</span> === <span class="string">'z'</span>  <span class="comment">// true</span></div><div class="line"><span class="string">'\172'</span> === <span class="string">'z'</span> <span class="comment">// true  严格模式下会报错（node v6.9.0)，浏览器下不会（chrome 53.0）</span></div><div class="line"><span class="string">'\x7A'</span> === <span class="string">'z'</span> <span class="comment">// true</span></div><div class="line"><span class="string">'\u007A'</span> === <span class="string">'z'</span> <span class="comment">// true</span></div><div class="line"><span class="string">'\u&#123;7A&#125;'</span> === <span class="string">'z'</span> <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<h3 id="UTF-16格式的-codePointAt-和-fromCodePoint"><a href="#UTF-16格式的-codePointAt-和-fromCodePoint" class="headerlink" title="UTF-16格式的 codePointAt 和 fromCodePoint"></a>UTF-16格式的 <strong>codePointAt</strong> 和 <strong>fromCodePoint</strong></h3><p>JavaScript内部，字符以UTF-16的格式储存，每个字符固定为2个字节。因此，4个字节储存的字符（Unicode码点大于0xFFFF的字符），JavaScript会认为是两个字符，所以，<em>charAt方法无法读取整个字符，charCodeAt方法只能分别返回前两个字节和后两个字节的值</em>。</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var s = <span class="string">"𠮷"</span>;</div><div class="line"></div><div class="line">s.length <span class="comment">// 2</span></div><div class="line">s.charAt(<span class="number">0</span>) <span class="comment">// ''</span></div><div class="line">s.charAt(<span class="number">1</span>) <span class="comment">// ''</span></div><div class="line">s.charCodeAt(<span class="number">0</span>) <span class="comment">// 55362</span></div><div class="line">s.charCodeAt(<span class="number">1</span>) <span class="comment">// 57271</span></div></pre></td></tr></table></figure>
+<ul>
+<li><strong><code>codePointAt()</code></strong> 方法，可以解决4个字节字符问题，返回一个字符的码点(codePointAt方法会正确返回32位的UTF-16字符的码点。对于两个字节储存的常规字符，它的返回结果与charCodeAt方法相同)</li>
+</ul>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var s = '𠮷a';</div><div class="line"></div><div class="line">s.codePointAt(<span class="number">0</span>) <span class="comment">// 134071 𠮷</span></div><div class="line">s.codePointAt(<span class="number">1</span>) <span class="comment">// 57271 𠮷这个字符的后两个字节</span></div><div class="line"></div><div class="line">s.charCodeAt(<span class="number">2</span>) <span class="comment">// 97 a</span></div></pre></td></tr></table></figure>
+<ul>
+<li>用 <code>for of</code> 循环识别32位的UTF-16字符</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> s = <span class="string">'𠮷a'</span>;</div><div class="line"></div><div class="line">s.codePointAt(<span class="number">0</span>).toString(<span class="number">16</span>) <span class="comment">// "20bb7"</span></div><div class="line">s.charCodeAt(<span class="number">2</span>).toString(<span class="number">16</span>) <span class="comment">// "61"  注意这里， 传参为 2 22222</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> ch <span class="keyword">of</span> s) &#123;</div><div class="line">  <span class="built_in">console</span>.log(ch.codePointAt(<span class="number">0</span>).toString(<span class="number">16</span>));</div><div class="line">&#125;</div><div class="line"><span class="comment">// 20bb7</span></div><div class="line"><span class="comment">// 61</span></div></pre></td></tr></table></figure>
+<ul>
+<li>用 <strong>codePointAt</strong>方法来测试一个字符由两个字节还是由四个字节组成的</li>
+</ul>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="title">is32Bit</span>(c) &#123;</div><div class="line">  <span class="keyword">return</span> <span class="type">c.codePointAt(0)</span> &gt; <span class="number">0</span>xFFFF;</div><div class="line">&#125;</div><div class="line"></div><div class="line">is32Bit(<span class="string">"𠮷"</span>) // <span class="literal">true</span></div><div class="line">is32Bit(<span class="string">"a"</span>) // <span class="literal">false</span></div></pre></td></tr></table></figure>
+<ul>
+<li>用 <strong><code>String.fromCodePoint</code></strong> 找到码点返回对应字符，但是这个方法不能识别32位的UTF-16字符（Unicode编号大于0xFFFF）。</li>
+</ul>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">String.fromCodePoint(<span class="number">0x20BB7</span>)</div><div class="line"><span class="comment">// "𠮷"</span></div><div class="line">String.fromCodePoint(<span class="number">0x78</span>, <span class="number">0x1f680</span>, <span class="number">0x79</span>) === 'x\uD83D\uDE80y'</div><div class="line"><span class="comment">// true 多个参数，会被合并成一个字符串返回</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>注意，fromCodePoint方法定义在String对象上，而codePointAt方法定义在字符串的实例对象上</p>
+</blockquote>
+<h3 id="字符串的遍历器接口"><a href="#字符串的遍历器接口" class="headerlink" title="字符串的遍历器接口"></a>字符串的遍历器接口</h3><p>ES6为字符串添加了遍历器接口，字符串可以被<code>for...of</code>循环遍历。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> codePoint <span class="keyword">of</span> <span class="string">'foo'</span>) &#123;</div><div class="line">  <span class="built_in">console</span>.log(codePoint)</div><div class="line">&#125;</div><div class="line"><span class="comment">// "f"</span></div><div class="line"><span class="comment">// "o"</span></div><div class="line"><span class="comment">// "o"</span></div><div class="line"></div><div class="line"><span class="comment">// 可以识别大于0xFFFF的码点</span></div><div class="line"><span class="comment">// 传统的for循环无法识别这样的码</span></div><div class="line"><span class="keyword">var</span> text = <span class="built_in">String</span>.fromCodePoint(<span class="number">0x20BB7</span>);</div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; text.length; i++) &#123;</div><div class="line">  <span class="built_in">console</span>.log(text[i]); <span class="comment">// " " // " "</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">of</span> text) &#123;</div><div class="line">  <span class="built_in">console</span>.log(i); <span class="comment">// "𠮷"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="新增的三个字符串搜索函数"><a href="#新增的三个字符串搜索函数" class="headerlink" title="新增的三个字符串搜索函数"></a>新增的三个字符串搜索函数</h3><ul>
+<li><strong><code>includes(str, startPos)</code></strong>：返回布尔值，表示是否找到了参数字符串。</li>
+<li><strong><code>startsWith(str, startPos)</code></strong>：返回布尔值，表示参数字符串是否在源字符串的头部。</li>
+<li><strong><code>endsWith(str, startPos)</code></strong>：返回布尔值，表示参数字符串是否在源字符串的尾部</li>
+</ul>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var s = <span class="string">'Hello world!'</span>;</div><div class="line"></div><div class="line">s.<span class="keyword">startsWith</span>(<span class="string">'world'</span>, <span class="number">6</span>) <span class="comment">// true</span></div><div class="line">s.<span class="keyword">endsWith</span>(<span class="string">'Hello'</span>, <span class="number">5</span>) <span class="comment">// true  区别：endsWith针对前n个字符，其他是开始位置到尾</span></div><div class="line">s.includes(<span class="string">'Hello'</span>, <span class="number">6</span>) <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<h3 id="新增的字符串重复函数"><a href="#新增的字符串重复函数" class="headerlink" title="新增的字符串重复函数"></a>新增的字符串重复函数</h3><p><strong>repeat(N)</strong>方法返回一个新字符串，表示将原字符串重复n次。参数会被取整：0到-1之间的小数，则等同于0；<code>NaN</code>等同于0；负数或者<code>Infinity</code>，会报错。</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="string">'x'</span>.<span class="keyword">repeat</span><span class="comment">(3)</span> <span class="comment">// "xxx"</span></div><div class="line"><span class="string">'hello'</span>.<span class="keyword">repeat</span><span class="comment">(2)</span> <span class="comment">// "hellohello"</span></div><div class="line"><span class="string">'na'</span>.<span class="keyword">repeat</span><span class="comment">(0)</span> <span class="comment">// ""</span></div><div class="line"></div><div class="line"><span class="string">'na'</span>.<span class="keyword">repeat</span><span class="comment">(-0.9)</span> <span class="comment">// ""</span></div><div class="line"><span class="string">'na'</span>.<span class="keyword">repeat</span><span class="comment">('3')</span> <span class="comment">// "nanana"</span></div></pre></td></tr></table></figure>
+<h3 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a>模板字符串</h3><p>模板字符串是增强版的字符串，用反引号（`）标识。它可以当作普通字符串使用，也可以用来定义多行字符串，或者在字符串中嵌入变量。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 普通字符串</span></div><div class="line"><span class="string">`In JavaScript '\n' is a line-feed.`</span></div><div class="line"></div><div class="line"><span class="comment">// 多行字符串</span></div><div class="line"><span class="string">`In JavaScript this is</span></div><div class="line"> not legal.`</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">`string text line 1</span></div><div class="line">string text line 2`);</div><div class="line"></div><div class="line"><span class="comment">// 字符串中嵌入变量</span></div><div class="line"><span class="keyword">var</span> name = <span class="string">"Bob"</span>, time = <span class="string">"today"</span>;</div><div class="line"><span class="string">`Hello <span class="subst">$&#123;name&#125;</span>, how are you <span class="subst">$&#123;time&#125;</span>?`</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> greeting = <span class="string">`\`Yo\` World!`</span>;</div><div class="line"></div><div class="line"><span class="comment">// 运算</span></div><div class="line"><span class="keyword">var</span> x = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> y = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="comment">// 使用反引号，需要转义</span></div><div class="line"><span class="string">`<span class="subst">$&#123;x&#125;</span> + <span class="subst">$&#123;y&#125;</span> = <span class="subst">$&#123;x + y&#125;</span>`</span> <span class="comment">// "1 + 2 = 3"</span></div><div class="line"></div><div class="line"><span class="comment">// 调用函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="string">"Hello World"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="string">`foo <span class="subst">$&#123;fn()&#125;</span> bar`</span>  <span class="comment">// foo Hello World bar</span></div><div class="line"></div><div class="line"><span class="comment">// 嵌套</span></div><div class="line"><span class="keyword">const</span> tmpl = <span class="function"><span class="params">addrs</span> =&gt;</span> <span class="string">`</span></div><div class="line">  &lt;table&gt;</div><div class="line">  <span class="subst">$&#123;addrs.map(addr =&gt; <span class="string">`</span></span></div><div class="line">    &lt;tr&gt;&lt;td&gt;<span class="subst">$&#123;addr.first&#125;</span>&lt;/td&gt;&lt;/tr&gt;</div><div class="line">    &lt;tr&gt;&lt;td&gt;<span class="subst">$&#123;addr.last&#125;</span>&lt;/td&gt;&lt;/tr&gt;</div><div class="line">  `).join(<span class="string">''</span>)&#125;</div><div class="line">  &lt;/table&gt;</div><div class="line">`;</div><div class="line"><span class="keyword">const</span> data = [</div><div class="line">    &#123; <span class="attr">first</span>: <span class="string">'&lt;Jane&gt;'</span>, <span class="attr">last</span>: <span class="string">'Bond'</span> &#125;,</div><div class="line">    &#123; <span class="attr">first</span>: <span class="string">'Lars'</span>, <span class="attr">last</span>: <span class="string">'&lt;Croft&gt;'</span> &#125;,</div><div class="line">];</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(tmpl(data));</div><div class="line"><span class="comment">// &lt;table&gt;</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//   &lt;tr&gt;&lt;td&gt;&lt;Jane&gt;&lt;/td&gt;&lt;/tr&gt;</span></div><div class="line"><span class="comment">//   &lt;tr&gt;&lt;td&gt;Bond&lt;/td&gt;&lt;/tr&gt;</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//   &lt;tr&gt;&lt;td&gt;Lars&lt;/td&gt;&lt;/tr&gt;</span></div><div class="line"><span class="comment">//   &lt;tr&gt;&lt;td&gt;&lt;Croft&gt;&lt;/td&gt;&lt;/tr&gt;</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">// &lt;/table&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="书中的实例：模板编译"><a href="#书中的实例：模板编译" class="headerlink" title="书中的实例：模板编译"></a>书中的实例：模板编译</h2><p>通过模板字符串，生成正式模板。</p>
+<p>定义的模板：<br><figure class="highlight erb"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="xml">// 模板使用<span class="tag">&lt;<span class="name">%</span></span></span><span class="ruby">...</span><span class="xml"><span class="tag">%&gt;</span>放置JavaScript代码</span></div><div class="line">// 使用<span class="tag">&lt;<span class="name">%=</span></span><span class="ruby"> ... </span><span class="xml"><span class="tag">%&gt;</span>输出JavaScript表达式</span></div><div class="line">var template = `</div><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">%</span></span><span class="ruby"> <span class="keyword">for</span>(var i=<span class="number">0</span>; i &lt; data.supplies.length; i++) &#123; </span><span class="xml"><span class="tag">%&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">%=</span></span><span class="ruby"> data.supplies[i] </span><span class="xml"><span class="tag">%&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></div><div class="line">  <span class="tag">&lt;<span class="name">%</span></span><span class="ruby"> &#125; </span><span class="xml"><span class="tag">%&gt;</span></span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">`;</div></pre></td></tr></table></figure></p>
+<p>目标：将其转换为JavaScript表达式字符串。<br><figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">echo('&lt;ul&gt;')<span class="comment">;</span></div><div class="line">for(<span class="name">var</span> i=0<span class="comment">; i &lt; data.supplies.length; i++) &#123;</span></div><div class="line">  echo('&lt;li&gt;')<span class="comment">;</span></div><div class="line">  echo(<span class="name">data</span>.supplies[i])<span class="comment">;</span></div><div class="line">  echo('&lt;/li&gt;')<span class="comment">;</span></div><div class="line">&#125;<span class="comment">;</span></div><div class="line">echo('&lt;/ul&gt;')<span class="comment">;</span></div></pre></td></tr></table></figure></p>
+<p>首先，使用正则表达式转换：<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">var evalExpr</span> = /&lt;%=(.+?)%&gt;/g;</div><div class="line"><span class="attribute">var expr</span> = /&lt;%([\s\S]+?)%&gt;/g;</div><div class="line"></div><div class="line"><span class="attribute">template</span> = template</div><div class="line">  .replace(evalExpr, <span class="string">'`); \n  echo( $1 ); \n  echo(`'</span>)</div><div class="line">  .replace(expr, <span class="string">'`); \n $1 \n  echo(`'</span>);</div><div class="line"></div><div class="line"><span class="attribute">template</span> = <span class="string">'echo(`'</span> + template + <span class="string">'`);'</span>;</div></pre></td></tr></table></figure></p>
+<p>然后，将template封装在一个函数里面返回<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var script =</div><div class="line">`(<span class="function"><span class="keyword">function</span> <span class="title">parse</span><span class="params">(data)</span></span>&#123;</div><div class="line">  var <span class="built_in">output</span> = <span class="string">""</span>;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">echo</span><span class="params">(html)</span></span>&#123;</div><div class="line">    <span class="built_in">output</span> += html;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  $&#123; template &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="built_in">output</span>;</div><div class="line">&#125;)`;</div><div class="line"></div><div class="line"><span class="keyword">return</span> script;</div></pre></td></tr></table></figure></p>
+<p>再拼装成模板编译函数compile<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">compile</span><span class="params">(template)</span></span>&#123;</div><div class="line">  <span class="keyword">var</span> evalExpr = /&lt;%=(.+?)%&gt;/g;</div><div class="line">  <span class="keyword">var</span> expr = /&lt;%([\s\S]+?)%&gt;/g;</div><div class="line"></div><div class="line">  template = template</div><div class="line">    .replace(evalExpr, <span class="string">'`); \n  echo( $1 ); \n  echo(`'</span>)</div><div class="line">    .replace(expr, <span class="string">'`); \n $1 \n  echo(`'</span>);</div><div class="line"></div><div class="line">  template = <span class="string">'echo(`'</span> + template + <span class="string">'`);'</span>;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> script =</div><div class="line">  `(<span class="function"><span class="keyword">function</span> <span class="title">parse</span><span class="params">(data)</span></span>&#123;</div><div class="line">    <span class="keyword">var</span> output = <span class="string">""</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">echo</span><span class="params">(html)</span></span>&#123;</div><div class="line">      output += html;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    $&#123; template &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> output;</div><div class="line">  &#125;)`;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> script;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最后，通过compile函数实现：<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">var</span> parse = <span class="built_in">eval</span>(<span class="built_in">compile</span>(template));</div><div class="line">div.innerHTML = parse(&#123; supplies: [ <span class="string">"broom"</span>, <span class="string">"mop"</span>, <span class="string">"cleaner"</span> ] &#125;);</div><div class="line">//   &lt;ul&gt;</div><div class="line">//     &lt;<span class="built_in">li</span>&gt;broom&lt;/<span class="built_in">li</span>&gt;</div><div class="line">//     &lt;<span class="built_in">li</span>&gt;mop&lt;/<span class="built_in">li</span>&gt;</div><div class="line">//     &lt;<span class="built_in">li</span>&gt;cleaner&lt;/<span class="built_in">li</span>&gt;</div><div class="line">//   &lt;/ul&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="标签模板"><a href="#标签模板" class="headerlink" title="标签模板"></a>标签模板</h3><p>标签模板其实不是模板，而是函数调用的一种特殊形式。“标签”指的就是函数（该函数将被调用来处理这个模板字符串），紧跟在后面的模板字符串就是它的参数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> [a, b] = [<span class="number">5</span>, <span class="number">10</span>];</div><div class="line"></div><div class="line">tag<span class="string">`Hello <span class="subst">$&#123; a + b &#125;</span> world <span class="subst">$&#123; a * b &#125;</span>`</span>;</div><div class="line"><span class="comment">// 等同于</span></div><div class="line">tag([<span class="string">'Hello '</span>, <span class="string">' world '</span>, <span class="string">''</span>], <span class="number">15</span>, <span class="number">50</span>);</div><div class="line"></div><div class="line"><span class="comment">// 等同于</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">tag</span>(<span class="params">stringArr, ...values</span>)</span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 比如</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">tag</span>(<span class="params">s, v1, v2</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(s[<span class="number">0</span>]);</div><div class="line">  <span class="built_in">console</span>.log(s[<span class="number">1</span>]);</div><div class="line">  <span class="built_in">console</span>.log(s[<span class="number">2</span>]);</div><div class="line">  <span class="built_in">console</span>.log(v1);</div><div class="line">  <span class="built_in">console</span>.log(v2);</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="string">"OK"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">tag<span class="string">`Hello <span class="subst">$&#123; a + b &#125;</span> world <span class="subst">$&#123; a * b&#125;</span>`</span>;</div><div class="line"><span class="comment">// "Hello "</span></div><div class="line"><span class="comment">// " world "</span></div><div class="line"><span class="comment">// ""</span></div><div class="line"><span class="comment">// 15</span></div><div class="line"><span class="comment">// 50</span></div><div class="line"><span class="comment">// "OK"</span></div></pre></td></tr></table></figure>
+<p>标签模板的应用：</p>
+<ul>
+<li>过滤HTML字符串：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> message =</div><div class="line">  SaferHTML<span class="string">`&lt;p&gt;<span class="subst">$&#123;sender&#125;</span> has sent you a message.&lt;/p&gt;`</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">SaferHTML</span>(<span class="params">templateData</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> s = templateData[<span class="number">0</span>];</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; <span class="built_in">arguments</span>.length; i++) &#123;</div><div class="line">    <span class="keyword">var</span> arg = <span class="built_in">String</span>(<span class="built_in">arguments</span>[i]);</div><div class="line"></div><div class="line">    <span class="comment">// Escape special characters in the substitution.</span></div><div class="line">    s += arg.replace(<span class="regexp">/&amp;/g</span>, <span class="string">"&amp;amp;"</span>)</div><div class="line">            .replace(<span class="regexp">/&lt;/g</span>, <span class="string">"&amp;lt;"</span>)</div><div class="line">            .replace(<span class="regexp">/&gt;/g</span>, <span class="string">"&amp;gt;"</span>);</div><div class="line"></div><div class="line">    <span class="comment">// Don't escape special characters in the template.</span></div><div class="line">    s += templateData[i];</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> s;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>多国语言转换</li>
+</ul>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">i18n`Welcome to <span class="variable">$&#123;siteName&#125;</span>, you are visitor number <span class="variable">$&#123;visitorNumber&#125;</span>!`</div><div class="line"><span class="regexp">//</span> <span class="string">"欢迎访问xxx，您是第xxxx位访问者！"</span></div></pre></td></tr></table></figure>
+<ul>
+<li>自定义类似模板库的条件循环功能</li>
+</ul>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="xml">// 自定义的模板处理函数</span></div><div class="line">var libraryHtml = hashTemplate`</div><div class="line">  <span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">    #for book in $<span class="template-variable">&#123;myBooks&#125;</span><span class="xml"></span></div><div class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">i</span>&gt;</span>#<span class="template-variable">&#123;book.title&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">i</span>&gt;</span> by #</span><span class="template-variable">&#123;book.author&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></div><div class="line">    #end</div><div class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">`;</div></pre></td></tr></table></figure>
+<ul>
+<li>在JavaScript语言之中嵌入其他语言</li>
+</ul>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 将一个DOM字符串转为React对象</span></div><div class="line">jsx`</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;input</div><div class="line">      <span class="keyword">ref</span>=<span class="string">'input'</span></div><div class="line">      onChange=<span class="string">'$&#123;this.handleChange&#125;'</span></div><div class="line">      defaultValue=<span class="string">'$&#123;this.state.value&#125;'</span> /&gt;</div><div class="line">      $&#123;<span class="keyword">this</span>.state.<span class="keyword">value</span>&#125;</div><div class="line">   &lt;/div&gt;</div><div class="line">`</div><div class="line"></div><div class="line"><span class="comment">// 在JavaScript代码之中运行Java代码</span></div><div class="line">java`</div><div class="line"><span class="keyword">class</span> <span class="title">HelloWorldApp</span> &#123;</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>) </span>&#123;</div><div class="line">    System.<span class="keyword">out</span>.println(“Hello World!”); <span class="comment">// Display the string.</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">`</div><div class="line">HelloWorldApp.main();</div></pre></td></tr></table></figure>
+<ul>
+<li>取得转义之前的原始模板（模板处理函数的第一个参数（模板字符串数组），有一个raw属性指向一个数组，该数组的与strings数组一致，还预先把字符串中的斜杠都转义好了）</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">tag<span class="string">`First line\nSecond line`</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">tag</span>(<span class="params">strings</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(strings.raw[<span class="number">0</span>]);</div><div class="line">  <span class="comment">// "First line\\nSecond line"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="原生字符处理函数"><a href="#原生字符处理函数" class="headerlink" title="原生字符处理函数"></a>原生字符处理函数</h3><p><code>String.raw</code>方法可以作为处理模板字符串的基本方法，它会将所有变量替换，而且对斜杠进行转义，方便下一步作为字符串来使用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">String</span>.raw<span class="string">`Hi\n<span class="subst">$&#123;<span class="number">2</span>+<span class="number">3</span>&#125;</span>!`</span>;</div><div class="line"><span class="comment">// "Hi\\n5!"</span></div><div class="line"></div><div class="line"><span class="built_in">String</span>.raw<span class="string">`Hi\u000A!`</span>;</div><div class="line"><span class="comment">// 'Hi\\u000A!'</span></div><div class="line"></div><div class="line"><span class="comment">// 如果原字符串的斜杠已经转义，不会做任何处理</span></div><div class="line"><span class="built_in">String</span>.raw<span class="string">`Hi\\n`</span></div><div class="line"><span class="comment">// "Hi\\n"</span></div><div class="line"></div><div class="line"><span class="comment">// 作为正常函数来用</span></div><div class="line"><span class="built_in">String</span>.raw(&#123; <span class="attr">raw</span>: <span class="string">'test'</span> &#125;, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>);</div><div class="line"><span class="comment">// 't0e1s2t'</span></div><div class="line"></div><div class="line"><span class="comment">// 等同于</span></div><div class="line"><span class="built_in">String</span>.raw(&#123; <span class="attr">raw</span>: [<span class="string">'t'</span>,<span class="string">'e'</span>,<span class="string">'s'</span>,<span class="string">'t'</span>] &#125;, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>);</div></pre></td></tr></table></figure>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/11/08/datastructures-array/" data-toggle="tooltip" data-placement="top" title="Datastructures of Array in Java && JS">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/11/25/extension-of-number/" data-toggle="tooltip" data-placement="top" title="Extension of Number">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#ECMAScript6" title="ECMAScript6">ECMAScript6</a>
+                        
+                          <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hexo-theme-huxblog";
+    var disqus_identifier = "carlsiry.io/2016/11/12/extension-of-string/";
+    var disqus_url = "carlsiry.io/2016/11/12/extension-of-string/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/陈小小生">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/carlsiry">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Awaiting K.I.S.S 2017
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("carlsiry.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="carlsiry.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

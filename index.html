@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          陈坎生的博客 | Carlsiry&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="carlsiry.io/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Carson's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">首页</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">陈坎生</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">归档</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>Awaiting K.I.S.S</h1>
+                    <!-- <hr class="small"> -->
+                    <span class="subheading">陈坎生的个人博客</span>
+                    <!-- 2017.10.18 位了配置简历加入主标题下的第二个副标题 -->
+                    <span class="subheading"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+
+                <!-- Main Content -->
+
+
+<div class="post-preview">
+
+    <a href="/2017/03/24/learning-typescript/">
+        <h2 class="post-title">
+            Learning Typescript
+        </h2>
+        <h3 class="post-subtitle">
+            学习 Typescript
+        </h3>
+        <div class="post-content-preview">
+            什么是Typescript?Typescript 是微软发布的带有类型系统与模块系统的 JavaScript 超集语言。通过向 JavaScript 增加可选的静态类型声明来把 JavaScript 变成超强类型的语言。
+可选的静态类型声明12345678910111213141516171819202122232425262728293031323334353637383940414243......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Carson on
+        2017-03-24
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/03/24/automatic-workflow/">
+        <h2 class="post-title">
+            Automatic Workflow
+        </h2>
+        <h3 class="post-subtitle">
+            学习自动化工作流程
+        </h3>
+        <div class="post-content-preview">
+            前期准备首先，在开发环境中安装好必要的工具软件：
+
+Git
+Node.js &amp;&amp; Bower &amp;&amp; nm &amp;&amp; tsd
+Atom（plugin：atom-typescript）
+
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Carson on
+        2017-03-24
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/03/19/py-dev-env-build/">
+        <h2 class="post-title">
+            Python Enviroment Build
+        </h2>
+        <h3 class="post-subtitle">
+            Python 项目开发环境搭建
+        </h3>
+        <div class="post-content-preview">
+            
+基于阿里云平台 Ubuntu14.04 Server
+
+开发依赖123456789101112sudo apt-get -y update    # update sourcesudo apt-get -y upgrade   # upgradesudo apt-get -y install build-essential  # make requrie toolsudo apt-get ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Carson on
+        2017-03-19
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/12/14/scroll-location-page/">
+        <h2 class="post-title">
+            Scroll Location Page
+        </h2>
+        <h3 class="post-subtitle">
+            滚动定位导航特效制作
+        </h3>
+        <div class="post-content-preview">
+            scroll-location-page页面滚动定位特效制作
+特效分析
+页面结构：
+
+左为主体内容，右为悬浮导航菜单
+页面滚动，导航随内容不同聚焦移动
+点击导航，左侧内容滚动到对应内容
+
+
+特效分析：
+  
+
+
+技术支撑页面滚动会发生滚动事件，通过滚动事件从而实现页面中相应内容的位置导航聚焦
+可以通过jQuery的方法快捷实现。
+12345678// 适用于所有可以滚动的元素和window对......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Carson on
+        2016-12-14
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/12/11/nginx-first/">
+        <h2 class="post-title">
+            Nginx First
+        </h2>
+        <h3 class="post-subtitle">
+            使用 Nginx 作为 Web 服务器
+        </h3>
+        <div class="post-content-preview">
+            install nginx 1.10.0212345678910111213141516# download nginx_signing keywget http://nginx.org/keys/nginx_signing.key# add nginx_singning key to the apt program keyringsudo apt-get add nginx_signing......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Carson on
+        2016-12-11
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/12/07/Haskell-first/">
+        <h2 class="post-title">
+            Haskell First
+        </h2>
+        <h3 class="post-subtitle">
+            Haskell 之初
+        </h3>
+        <div class="post-content-preview">
+            0从 Haskell 的官网下载（ https://www.haskell.org ）包含 GHC、cabal（Haskell的包管理器）的 Minimal installers, 
+
+Glasgrow：格拉斯哥，英国的一座城市
+GHC（The Glasgow Compilier）：Haskell 编译运行实现
+cabal：Haskell的包管理工具，同时身兼自动化编译工具的功能
+注意：不要......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Carson on
+        2016-12-07
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/12/07/newword/">
+        <h2 class="post-title">
+            New Words
+        </h2>
+        <h3 class="post-subtitle">
+            新增单词
+        </h3>
+        <div class="post-content-preview">
+            3.24
+inference n. 推理，推断，推论
+peer v. 仔细看 n. 同等地位的人，同龄人，贵族
+interfere vi. 干涉，妨碍，打扰，调停
+
+3.21
+savvy  n. 常识，技能 adj. 有见识的，精明的
+mute adj. 无声的，哑的
+
+3.18
+agile 灵活，轻快，机敏，敏捷
+essential adj&amp;n 基本的，必须的，必需品，精华
+das......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Carson on
+        2016-12-07
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/11/27/extension-of-array/">
+        <h2 class="post-title">
+            Extension of Array
+        </h2>
+        <h3 class="post-subtitle">
+            ES6 数组的扩展 ——《ECMAScript 6 Primer》学习笔记
+        </h3>
+        <div class="post-content-preview">
+            数组的扩展把类似数组结构转化为数组 —— Array.from()Array.from(object, mapCallBack)
+Array.from 可以把 类数组的对象和可遍历对象转化为数组，以便进行一些数组的方法操作。
+
+类数组对象：拥有 length 属性的对象，如DOM节点集合、arguments对象。
+
+1234567891011// querySelectorAll 返回的是类......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Carson on
+        2016-11-27
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/11/26/extension-of-function/">
+        <h2 class="post-title">
+            Extension of Function
+        </h2>
+        <h3 class="post-subtitle">
+            ES6 函数的扩展 ——《ECMAScript 6 Primer》学习笔记
+        </h3>
+        <div class="post-content-preview">
+            函数扩展ES6 可直接为函数参数指定默认值, 可采用结构赋值的方式传递参数
+12345678910function log(x = 0, y = 0) &#123;    console.log(x + y);&#125;functio add ([x, y]) &#123;    console.log(x * y);&#125;var [a, b] = [1, 3];add([a, b]......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Carson on
+        2016-11-26
+    </p>
+
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    
+        <li class="next">
+            <a href="/page/2/">Older Posts &rarr;</a>
+        </li>
+    
+</ul>
+
+
+
+                <!-- 如果开启评论功能 -->
+                
+
+            </div>
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                            
+                        
+                            
+                            <a href="/tags/#ECMAScript6" title="ECMAScript6" rel="7">ECMAScript6</a>
+                            
+                        
+                            
+                            <a href="/tags/#JavaScript" title="JavaScript" rel="14">JavaScript</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#Python" title="Python" rel="2">Python</a>
+                            
+                        
+                            
+                            <a href="/tags/#前端开发" title="前端开发" rel="4">前端开发</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#转载" title="转载" rel="2">转载</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+
+                        
+                            <img src="/img/carson.jpg" />
+                        
+
+                        
+                            <p>会写博客的前端是一个好的设计师!</p>
+                        
+
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                            
+
+                            
+                                <li>
+                                    <a target="_blank" href="http://weibo.com/陈小小生">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+                            
+
+                            
+                                <li>
+                                    <a target="_blank"  href="https://github.com/carlsiry">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+
+                            
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+        
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/陈小小生">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/carlsiry">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Awaiting K.I.S.S 2017
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("carlsiry.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="carlsiry.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

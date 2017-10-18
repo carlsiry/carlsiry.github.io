@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          「Rep」Node.js Style Guides - 陈坎生的博客 | Carlsiry&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="carlsiry.io/2016/09/01/node-style-guide/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Carson's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">首页</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">陈坎生</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">归档</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="carlsiry.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#转载" title="转载">转载</a>
+                        
+                          <a class="tag" href="/tags/#Node.js" title="Node.js">Node.js</a>
+                        
+                    </div>
+                    <h1>「Rep」Node.js Style Guides</h1>
+                    <h2 class="subheading">Node.js 风格指南 —— 转载自 Github Weiwei Sun</h2>
+                    <span class="meta">
+                        Posted by Weiwei SUN on
+                        2016-09-01
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="Node-js-风格指南"><a href="#Node-js-风格指南" class="headerlink" title="Node.js 风格指南"></a>Node.js 风格指南</h2><!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<p><strong>Table of Contents</strong>  <em>generated with <a href="https://github.com/thlorenz/doctoc" target="_blank" rel="external">DocToc</a></em></p>
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</a></li>
+<li><a href="#%E7%B1%BB%E5%9E%8B">类型</a></li>
+<li><a href="#%E5%AF%B9%E8%B1%A1">对象</a></li>
+<li><a href="#%E6%95%B0%E7%BB%84">数组</a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E4%B8%B2">字符串</a></li>
+<li><a href="#%E5%87%BD%E6%95%B0">函数</a></li>
+<li><a href="#%E5%B1%9E%E6%80%A7">属性</a></li>
+<li><a href="#%E5%8F%98%E9%87%8F">变量</a></li>
+<li><a href="#requires">Requires</a></li>
+<li><a href="#%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0">回调函数</a></li>
+<li><a href="#try-catch">Try catch</a></li>
+<li><a href="#%E6%8F%90%E5%8D%87">提升</a></li>
+<li><a href="#%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F-&amp;-%E7%9B%B8%E7%AD%89%E6%80%A7">条件表达式 &amp; 相等性</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%9D%97">代码块</a></li>
+<li><a href="#%E6%B3%A8%E9%87%8A">注释</a></li>
+<li><a href="#%E7%A9%BA%E6%A0%BC">空格</a></li>
+<li><a href="#%E9%80%97%E5%8F%B7">逗号</a></li>
+<li><a href="#%E5%88%86%E5%8F%B7%E4%BD%9C%E4%B8%BA%E8%AF%AD%E5%8F%A5%E5%9D%97%E7%9A%84%E7%BB%93%E6%9D%9F">分号作为语句块的结束</a></li>
+<li><a href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2-&amp;-%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2">类型转换 &amp; 强制类型转换</a></li>
+<li><a href="#%E5%91%BD%E5%90%8D%E7%BA%A6%E5%AE%9A">命名约定</a></li>
+<li><a href="#%E8%AE%BF%E9%97%AE%E5%99%A8">访问器</a></li>
+<li><a href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0">构造函数</a></li>
+<li><a href="#es6%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0">ES6箭头函数</a></li>
+<li><a href="#es6%E5%A2%9E%E5%BC%BA%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%AD%97%E9%9D%A2%E9%87%8F">ES6增强的对象字面量</a></li>
+<li><a href="#es6%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2">ES6模板字符串</a></li>
+<li><a href="#es6%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E5%A2%9E%E5%BC%BA">ES6函数参数增强</a></li>
+<li><a href="#es6%E6%96%B0%E5%A2%9E%E5%85%B3%E9%94%AE%E5%AD%97let%E5%92%8Cconst">ES6新增关键字let和const</a></li>
+<li><a href="#es6%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8Cforof">ES6迭代器和<code>for..of</code></a></li>
+<li><a href="#es6%E7%94%9F%E6%88%90%E5%99%A8">ES6生成器</a></li>
+<li><a href="#es6%E6%A8%A1%E5%9D%97">ES6模块</a></li>
+<li><a href="#es6%E6%96%B0%E5%A2%9E%E9%9B%86%E5%90%88map%E5%92%8Cset">ES6新增集合Map和Set</a></li>
+<li><a href="#es6-promise">ES6 Promise</a></li>
+<li><a href="#%E6%8E%A8%E8%8D%90%E7%9A%84%E4%B9%A6">推荐的书</a></li>
+<li><a href="#%E6%8E%A8%E8%8D%90%E7%9A%84%E5%8D%9A%E5%AE%A2">推荐的博客</a><ul>
+<li><a href="#">};</a></li>
+</ul>
+</li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="https://github.com/airbnb/javascript" target="_blank" rel="external">Airbnb styleguide</a></li>
+<li>RisingStack’s <a href="https://github.com/RisingStack/node-style-guide" target="_blank" rel="external">Node.js styleguide</a></li>
+<li>Caolan’s <a href="http://caolanmcmahon.com/posts/nodejs_style_and_structure" target="_blank" rel="external">Node.js styleguide</a></li>
+<li>Felixge’s <a href="https://github.com/felixge/node-style-guide" target="_blank" rel="external">Node.js styleguide</a></li>
+<li>Baidu EFE: <a href="http://efe.baidu.com/blog/es6-develop-overview/" target="_blank" rel="external">ES6 develop overview</a></li>
+</ul>
+<h2 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h2><ul>
+<li><p><strong>原始类型</strong>: 当你访问一个原始数据类型时，你直接操作的是它的值</p>
+<ul>
+<li><code>string</code></li>
+<li><code>number</code></li>
+<li><code>boolean</code></li>
+<li><code>null</code></li>
+<li><code>undefined</code></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> bar = foo;</div><div class="line"></div><div class="line">bar = <span class="number">9</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(foo, bar); <span class="comment">// =&gt; 1, 9</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>复杂情况</strong>: 当你访问的是一个复杂类型时，你操作的是它的引用</p>
+<ul>
+<li><code>object</code></li>
+<li><code>array</code></li>
+<li><code>function</code></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = [<span class="number">1</span>, <span class="number">2</span>];</div><div class="line"><span class="keyword">var</span> bar = foo;</div><div class="line"></div><div class="line">bar[<span class="number">0</span>] = <span class="number">9</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(foo[<span class="number">0</span>], bar[<span class="number">0</span>]); <span class="comment">// =&gt; 9, 9</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><ul>
+<li><p>在对象创建时使用字面量语法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> item = <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> item = &#123;&#125;;</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用可读的别名，避免使用保留字</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> superman = &#123;</div><div class="line">  <span class="attr">class</span>: <span class="string">'alien'</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> superman = &#123;</div><div class="line">  <span class="attr">klass</span>: <span class="string">'alien'</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> superman = &#123;</div><div class="line">  <span class="attr">type</span>: <span class="string">'alien'</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><ul>
+<li><p>使用字面量语法创建数组</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> items = <span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> items = [];</div></pre></td></tr></table></figure>
+</li>
+<li><p>当你不知道数组的长度时使用Array#push.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> someStack = [];</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line">someStack[someStack.length] = <span class="string">'abracadabra'</span>;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">someStack.push(<span class="string">'abracadabra'</span>);</div></pre></td></tr></table></figure>
+</li>
+<li><p>当你需要复制数据时使用Array#slice. <a href="http://jsperf.com/converting-arguments-to-an-array/7" target="_blank" rel="external">jsPerf</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> len = items.length;</div><div class="line"><span class="keyword">var</span> itemsCopy = [];</div><div class="line"><span class="keyword">var</span> i;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; len; i++) &#123;</div><div class="line">  itemsCopy[i] = items[i];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">itemsCopy = items.slice();</div></pre></td></tr></table></figure>
+</li>
+<li><p>将一个类数组对象转为数组，使用Array#slice.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">trigger</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><ul>
+<li><p>使用单引号 <code>&#39;&#39;</code> 表示字符串</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> name = <span class="string">"Bob Parr"</span>;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> name = <span class="string">'Bob Parr'</span>;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> fullName = <span class="string">"Bob "</span> + <span class="keyword">this</span>.lastName;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> fullName = <span class="string">'Bob '</span> + <span class="keyword">this</span>.lastName;</div></pre></td></tr></table></figure>
+</li>
+<li><p>长于80个字符的字符串应该被写成多行（使用字符串拼接或ES6的模板字符串）</p>
+</li>
+<li><p>注意：如果过度使用，长字符串拼接会影响性能. <a href="http://jsperf.com/ya-string-concat" target="_blank" rel="external">jsPerf</a> &amp; <a href="https://github.com/airbnb/javascript/issues/40" target="_blank" rel="external">Discussion</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> errorMessage = <span class="string">'This is a super long error that was thrown because of Batman. When you stop to think about how Batman had anything to do with this, you would get nowhere fast.'</span>;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> errorMessage = <span class="string">'This is a super long error that was thrown because \</span></div><div class="line">of Batman. When you stop to think about how Batman had anything to do \</div><div class="line">with this, you would get nowhere \</div><div class="line">fast.';</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> errorMessage = <span class="string">'This is a super long error that was thrown because '</span> +</div><div class="line">  <span class="string">'of Batman. When you stop to think about how Batman had anything to do '</span> +</div><div class="line">  <span class="string">'with this, you would get nowhere fast.'</span>;</div><div class="line">  </div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> errorMessage = <span class="string">`</span></div><div class="line">  hello</div><div class="line">  world</div><div class="line">  this</div><div class="line">  is</div><div class="line">`;</div></pre></td></tr></table></figure>
+</li>
+<li><p>当使用程序来生成字符串时，使用Array#join，而不是字符串拼接.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> items;</div><div class="line"><span class="keyword">var</span> messages;</div><div class="line"><span class="keyword">var</span> length;</div><div class="line"><span class="keyword">var</span> i;</div><div class="line"></div><div class="line">messages = [&#123;</div><div class="line">  <span class="attr">state</span>: <span class="string">'success'</span>,</div><div class="line">  <span class="attr">message</span>: <span class="string">'This one worked.'</span></div><div class="line">&#125;, &#123;</div><div class="line">  <span class="attr">state</span>: <span class="string">'success'</span>,</div><div class="line">  <span class="attr">message</span>: <span class="string">'This one worked as well.'</span></div><div class="line">&#125;, &#123;</div><div class="line">  <span class="attr">state</span>: <span class="string">'error'</span>,</div><div class="line">  <span class="attr">message</span>: <span class="string">'This one did not work.'</span></div><div class="line">&#125;];</div><div class="line"></div><div class="line">length = messages.length;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">inbox</span>(<span class="params">messages</span>) </span>&#123;</div><div class="line">  items = <span class="string">'&lt;ul&gt;'</span>;</div><div class="line"></div><div class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">    items += <span class="string">'&lt;li&gt;'</span> + messages[i].message + <span class="string">'&lt;/li&gt;'</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> items + <span class="string">'&lt;/ul&gt;'</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">inbox</span>(<span class="params">messages</span>) </span>&#123;</div><div class="line">  items = [];</div><div class="line"></div><div class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">    items[i] = messages[i].message;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="string">'&lt;ul&gt;&lt;li&gt;'</span> + items.join(<span class="string">'&lt;/li&gt;&lt;li&gt;'</span>) + <span class="string">'&lt;/li&gt;&lt;/ul&gt;'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><ul>
+<li><p>函数表达式:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// anonymous function expression</span></div><div class="line"><span class="keyword">var</span> anonymous = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// named function expression</span></div><div class="line"><span class="keyword">var</span> named = <span class="function"><span class="keyword">function</span> <span class="title">named</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// immediately-invoked function expression (IIFE)</span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Welcome to the Internet. Please follow me.'</span>);</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
+</li>
+<li><p>永远不要再一个非函数语句块内使用函数声明(if, while, 等). 将函数赋值给一个变量.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">if</span> (currentUser) &#123;</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Nope.'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> test;</div><div class="line"><span class="keyword">if</span> (currentUser) &#123;</div><div class="line">  test = <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Yup.'</span>);</div><div class="line">  &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>永远不要将你的参数命名为 <code>arguments</code>, 这会与函数范围内的 <code>arguments</code> 对象冲突.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">nope</span>(<span class="params">name, options, arguments</span>) </span>&#123;</div><div class="line">  <span class="comment">// ...stuff...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">yup</span>(<span class="params">name, options, args</span>) </span>&#123;</div><div class="line">  <span class="comment">// ...stuff...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><ul>
+<li><p>当访问属性时请使用<code>.</code>操作符.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> luke = &#123;</div><div class="line">  <span class="attr">jedi</span>: <span class="literal">true</span>,</div><div class="line">  <span class="attr">age</span>: <span class="number">28</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> isJedi = luke[<span class="string">'jedi'</span>];</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> isJedi = luke.jedi;</div></pre></td></tr></table></figure>
+</li>
+<li><p>当你要用变量访问属性时，请使用 <code>[]</code> .</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> luke = &#123;</div><div class="line">  <span class="attr">jedi</span>: <span class="literal">true</span>,</div><div class="line">  <span class="attr">age</span>: <span class="number">28</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getProp</span>(<span class="params">prop</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> luke[prop];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> isJedi = getProp(<span class="string">'jedi'</span>);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><ul>
+<li><p>始终使用 <code>var</code> 来声明变量. 否则会创建全局变量，污染全局命名空间.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">superPower = <span class="keyword">new</span> SuperPower();</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> superPower = <span class="keyword">new</span> SuperPower();</div></pre></td></tr></table></figure>
+</li>
+<li><p>声明变量时使用一个新行, 并且每一行都使用 <code>var</code> 来声明.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"> <span class="keyword">var</span> items = getItems(),</div><div class="line">      goSportsTeam = <span class="literal">true</span>,</div><div class="line">      dragonball = <span class="string">'z'</span>;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"> <span class="keyword">var</span> items = getItems();</div><div class="line"> <span class="keyword">var</span> goSportsTeam = <span class="literal">true</span>;</div><div class="line"> <span class="keyword">var</span> dragonball = <span class="string">'z'</span>;</div></pre></td></tr></table></figure>
+</li>
+<li><p>最后声明未赋值的便利. 后面如果你要使用前面的变量进行赋值时会显得很便利.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> i;</div><div class="line"><span class="keyword">var</span> items = getItems();</div><div class="line"><span class="keyword">var</span> dragonball;</div><div class="line"><span class="keyword">var</span> goSportsTeam = <span class="literal">true</span>;</div><div class="line"><span class="keyword">var</span> len;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> items = getItems();</div><div class="line"><span class="keyword">var</span> goSportsTeam = <span class="literal">true</span>;</div><div class="line"><span class="keyword">var</span> dragonball;</div><div class="line"><span class="keyword">var</span> length;</div><div class="line"><span class="keyword">var</span> i;</div></pre></td></tr></table></figure>
+</li>
+<li><p>避免冗余的变量声明, 可已使用 <code>Object</code> 对象来构建命名空间.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> kaleidoscopeName = <span class="string">'..'</span>;</div><div class="line"><span class="keyword">var</span> kaleidoscopeLens = [];</div><div class="line"><span class="keyword">var</span> kaleidoscopeColors = [];</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> kaleidoscope = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'..'</span>,</div><div class="line">  <span class="attr">lens</span>: [],</div><div class="line">  <span class="attr">colors</span>: []</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在变量作用范围的最顶端声明变量. 这可以帮你避免赋值提升的问题.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  test();</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'doing stuff..'</span>);</div><div class="line"></div><div class="line">  <span class="comment">//..other stuff..</span></div><div class="line"></div><div class="line">  <span class="keyword">var</span> name = getName();</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (name === <span class="string">'test'</span>) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> name;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> name = getName();</div><div class="line"></div><div class="line">  test();</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'doing stuff..'</span>);</div><div class="line"></div><div class="line">  <span class="comment">//..other stuff..</span></div><div class="line"></div><div class="line">  <span class="keyword">if</span> (name === <span class="string">'test'</span>) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> name;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> name = getName();</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (!<span class="built_in">arguments</span>.length) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (!<span class="built_in">arguments</span>.length) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> name = getName();</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="Requires"><a href="#Requires" class="headerlink" title="Requires"></a>Requires</h2><ul>
+<li><p>使用如下顺序来组织node代码中的require语句:</p>
+<ul>
+<li>core modules</li>
+<li>npm modules</li>
+<li>others</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> Car = <span class="built_in">require</span>(<span class="string">'./models/Car'</span>);</div><div class="line"><span class="keyword">var</span> <span class="keyword">async</span> = <span class="built_in">require</span>(<span class="string">'async'</span>);</div><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> <span class="keyword">async</span> = <span class="built_in">require</span>(<span class="string">'async'</span>);</div><div class="line"><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> Car = <span class="built_in">require</span>(<span class="string">'./models/Car'</span>);</div></pre></td></tr></table></figure>
+</li>
+<li><p>当你引入模块时，不要加 <code>.js</code> 后缀</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> Batmobil = <span class="built_in">require</span>(<span class="string">'./models/Car.js'</span>);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> Batmobil = <span class="built_in">require</span>(<span class="string">'./models/Car'</span>);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h2><ul>
+<li><p>在回调函数中要始终检测错误</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//bad</span></div><div class="line">database.get(<span class="string">'pokemons'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, pokemons</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(pokemons);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//good</span></div><div class="line">database.get(<span class="string">'drabonballs'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, drabonballs</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (err) &#123;</div><div class="line">    <span class="comment">// handle the error somehow, maybe return with a callback</span></div><div class="line">    <span class="keyword">return</span> <span class="built_in">console</span>.log(err);</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">console</span>.log(drabonballs);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>遇到错误时从回调中返回</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//bad</span></div><div class="line">database.get(<span class="string">'drabonballs'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, drabonballs</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (err) &#123;</div><div class="line">    <span class="comment">// if not return here</span></div><div class="line">    <span class="built_in">console</span>.log(err);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// this line will be executed as well</span></div><div class="line">  <span class="built_in">console</span>.log(drabonballs);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//good</span></div><div class="line">database.get(<span class="string">'drabonballs'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, drabonballs</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (err) &#123;</div><div class="line">    <span class="comment">// handle the error somehow, maybe return with a callback</span></div><div class="line">    <span class="keyword">return</span> <span class="built_in">console</span>.log(err);</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">console</span>.log(drabonballs);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>当你要开发接口给外部时，在你的回调函数中使用描述性的参数。它能够让你的代码更可读。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getAnimals</span>(<span class="params">done</span>) </span>&#123;</div><div class="line">  Animal.get(done);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getAnimals</span>(<span class="params">done</span>) </span>&#123;</div><div class="line">  Animal.get(<span class="function"><span class="keyword">function</span>(<span class="params">err, animals</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(err) &#123;</div><div class="line">      <span class="keyword">return</span> done(err);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> done(<span class="literal">null</span>, &#123;</div><div class="line">      <span class="attr">dogs</span>: animals.dogs,</div><div class="line">      <span class="attr">cats</span>: animals.cats</div><div class="line">    &#125;)</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="Try-catch"><a href="#Try-catch" class="headerlink" title="Try catch"></a>Try catch</h2><ul>
+<li><p>只能在同步函数中使用<code>throw</code></p>
+<p>Try-catch 语句块不能被用在异步代码块中。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//bad</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">readPackageJson</span> (<span class="params">callback</span>) </span>&#123;</div><div class="line">  fs.readFile(<span class="string">'package.json'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, file</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) &#123;</div><div class="line">      <span class="keyword">throw</span> err;</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"><span class="comment">//good</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">readPackageJson</span> (<span class="params">callback</span>) </span>&#123;</div><div class="line">  fs.readFile(<span class="string">'package.json'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, file</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) &#123;</div><div class="line">      <span class="keyword">return</span>  callback(err);</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在同步调用中捕获错误，<code>JSON.parse()</code>应该使用<code>try-catch</code>语句块</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//bad</span></div><div class="line"><span class="keyword">var</span> data = <span class="built_in">JSON</span>.parse(jsonAsAString);</div><div class="line"></div><div class="line"><span class="comment">//good</span></div><div class="line"><span class="keyword">var</span> data;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">  data = <span class="built_in">JSON</span>.parse(jsonAsAString);</div><div class="line">&#125; <span class="keyword">catch</span> (e) &#123;</div><div class="line">  <span class="comment">//handle error - hopefully not with a console.log ;)</span></div><div class="line">  <span class="built_in">console</span>.log(e);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="提升"><a href="#提升" class="headerlink" title="提升"></a>提升</h2><ul>
+<li><p>变量声明会被提升到作用域的顶端，而赋值操作则不会。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 先看个简单的例子，显然它会抛出错误</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(notDefined); <span class="comment">// =&gt; throws a ReferenceError</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 我们先使用了一个变量，而后再声明并初始化这个变量</span></div><div class="line"><span class="comment">// 输出结果没有报错，而是 `undefined`，意思是未被初始化</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(declaredButNotAssigned); <span class="comment">// =&gt; undefined</span></div><div class="line">  <span class="keyword">var</span> declaredButNotAssigned = <span class="literal">true</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 变量声明部分会被提升，赋值部分仍保持不变</span></div><div class="line"><span class="comment">// 上面的代码等同于</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> declaredButNotAssigned;</div><div class="line">  <span class="built_in">console</span>.log(declaredButNotAssigned); <span class="comment">// =&gt; undefined</span></div><div class="line">  declaredButNotAssigned = <span class="literal">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>匿名函数表达式会提升它们的变量名，但是函数赋值部门不会被提升</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(anonymous); <span class="comment">// =&gt; undefined</span></div><div class="line"></div><div class="line">  anonymous(); <span class="comment">// =&gt; TypeError anonymous is not a function</span></div><div class="line"></div><div class="line">  <span class="keyword">var</span> anonymous = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'anonymous function expression'</span>);</div><div class="line">  &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>命名函数表达式会提升它们的变量名，但函数名或函数体不会被提升。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(named); <span class="comment">// =&gt; undefined</span></div><div class="line"></div><div class="line">  named(); <span class="comment">// =&gt; TypeError named is not a function</span></div><div class="line"></div><div class="line">  superPower(); <span class="comment">// =&gt; ReferenceError superPower is not defined</span></div><div class="line"></div><div class="line">  <span class="keyword">var</span> named = <span class="function"><span class="keyword">function</span> <span class="title">superPower</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Flying'</span>);</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// the same is true when the function name</span></div><div class="line"><span class="comment">// is the same as the variable name.</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(named); <span class="comment">// =&gt; undefined</span></div><div class="line"></div><div class="line">  named(); <span class="comment">// =&gt; TypeError named is not a function</span></div><div class="line"></div><div class="line">  <span class="keyword">var</span> named = <span class="function"><span class="keyword">function</span> <span class="title">named</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'named'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>函数声明会被整体提升到作用域顶端</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  superPower(); <span class="comment">// =&gt; Flying</span></div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">superPower</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Flying'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>更多信息请参考 <a href="http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting" target="_blank" rel="external">JavaScript Scoping &amp; Hoisting</a> by <a href="http://www.adequatelygood.com/" target="_blank" rel="external">Ben Cherry</a></p>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="条件表达式-amp-相等性"><a href="#条件表达式-amp-相等性" class="headerlink" title="条件表达式 &amp; 相等性"></a>条件表达式 &amp; 相等性</h2><ul>
+<li>使用 <code>===</code> 和 <code>!==</code> 来代替 <code>==</code> 和 <code>!=</code>.</li>
+<li><p>条件表达式会被使用<code>ToBoolean</code>方法进行强制类型转换。并且服从如下规则：</p>
+<ul>
+<li><strong>Objects</strong> 被转换为 <strong>true</strong></li>
+<li><strong>Undefined</strong> 被转换为 <strong>false</strong></li>
+<li><strong>Null</strong> 被转换为 <strong>false</strong></li>
+<li><strong>Booleans</strong> 被转换为 <strong>实际的boolean值</strong></li>
+<li><strong>Numbers</strong> 被转换为 <strong>false</strong> 如果是 <strong>+0, -0, or NaN</strong>, 其他都为 <strong>true</strong></li>
+<li><strong>Strings</strong> 被转换为 <strong>false</strong> 如果是空字符串 <code>&#39;&#39;</code>, 其他都为 <strong>true</strong></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ([<span class="number">0</span>]) &#123;</div><div class="line">  <span class="comment">// true</span></div><div class="line">  <span class="comment">// 数组是对象，对象始终被转换为 `true`</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用缩减版.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">if</span> (name !== <span class="string">''</span>) &#123;</div><div class="line">  <span class="comment">// ...stuff...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">if</span> (name) &#123;</div><div class="line">  <span class="comment">// ...stuff...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">if</span> (collection.length &gt; <span class="number">0</span>) &#123;</div><div class="line">  <span class="comment">// ...stuff...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">if</span> (collection.length) &#123;</div><div class="line">  <span class="comment">// ...stuff...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>更多信息请参考 <a href="http://javascriptweblog.wordpress.com/2011/02/07/truth-equality-and-javascript/#more-2108" target="_blank" rel="external">Truth Equality and JavaScript</a> by Angus Croll</p>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><ul>
+<li><p>所有的多行代码块都要使用大括号，并且不要写在一行</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">if</span> (test)</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">if</span> (test) <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">if</span> (test) &#123;</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="literal">false</span>; &#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><ul>
+<li><p>使用 <code>/** ... */</code> 进行多行注释. 请在你们加入注释说明，指明参数和返回值的类型 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="comment">// make() returns a new element</span></div><div class="line"><span class="comment">// based on the passed in tag name</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">// @param &lt;String&gt; tag</span></div><div class="line"><span class="comment">// @return &lt;Element&gt; element</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">make</span>(<span class="params">tag</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// ...stuff...</span></div><div class="line"></div><div class="line">  <span class="keyword">return</span> element;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="comment">/**</span></div><div class="line"> * make() returns a new element</div><div class="line"> * based on the passed in tag name</div><div class="line"> *</div><div class="line"> * @param &lt;String&gt; tag</div><div class="line"> * @return &lt;Element&gt; element</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">make</span>(<span class="params">tag</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// ...stuff...</span></div><div class="line"></div><div class="line">  <span class="keyword">return</span> element;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用 <code>//</code> 进行单行注释. 请用一个新行来添加注释。并在注释行前增加一个空行。 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> active = <span class="literal">true</span>;  <span class="comment">// is current tab</span></div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="comment">// is current tab</span></div><div class="line"><span class="keyword">var</span> active = <span class="literal">true</span>;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getType</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'fetching type...'</span>);</div><div class="line">  <span class="comment">// set the default type to 'no type'</span></div><div class="line">  <span class="keyword">var</span> type = <span class="keyword">this</span>._type || <span class="string">'no type'</span>;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> type;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getType</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'fetching type...'</span>);</div><div class="line"></div><div class="line">  <span class="comment">// set the default type to 'no type'</span></div><div class="line">  <span class="keyword">var</span> type = <span class="keyword">this</span>._type || <span class="string">'no type'</span>;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> type;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果是为了指明一个错误，请在你的注释前加上<code>FIXME</code>或<code>TODO</code>前缀来帮助其他开发者快速的了解你的注释意图。<br>其中<code>FIXME</code>可以表示这个问题需要解决，或者<code>TODO</code>来表示需要被实现的功能块。</p>
+</li>
+<li><p>使用 <code>// FIXME:</code> 来注解一个问题。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Calculator</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// <span class="doctag">FIXME:</span> shouldn't use a global here</span></div><div class="line">  total = <span class="number">0</span>;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用 <code>// TODO:</code> 来注解一个需要被实现（完成）的任务。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Calculator</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// <span class="doctag">TODO:</span> total should be configurable by an options param</span></div><div class="line">  <span class="keyword">this</span>.total = <span class="number">0</span>;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="空格"><a href="#空格" class="headerlink" title="空格"></a>空格</h2><ul>
+<li><p>推荐使用2个空格作为缩进</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">∙∙∙∙<span class="keyword">var</span> name;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">∙<span class="keyword">var</span> name;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">∙∙<span class="keyword">var</span> name;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在所有起始的大括号前加一个空格</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'test'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'test'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line">dog.set(<span class="string">'attr'</span>,&#123;</div><div class="line">  <span class="attr">age</span>: <span class="string">'1 year'</span>,</div><div class="line">  <span class="attr">breed</span>: <span class="string">'Bernese Mountain Dog'</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">dog.set(<span class="string">'attr'</span>, &#123;</div><div class="line">  <span class="attr">age</span>: <span class="string">'1 year'</span>,</div><div class="line">  <span class="attr">breed</span>: <span class="string">'Bernese Mountain Dog'</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>在操作符见使用一个空格</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> x=y+<span class="number">5</span>;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> x = y + <span class="number">5</span>;</div></pre></td></tr></table></figure>
+</li>
+<li><p>文件结束后增加一个空行</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">global</span>) </span>&#123;</div><div class="line">  <span class="comment">// ...stuff...</span></div><div class="line">&#125;)(<span class="keyword">this</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">global</span>) </span>&#123;</div><div class="line">  <span class="comment">// ...stuff...</span></div><div class="line">&#125;)(<span class="keyword">this</span>);↵</div><div class="line">↵</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// good</span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">global</span>) </span>&#123;</div><div class="line">  <span class="comment">// ...stuff...</span></div><div class="line">&#125;)(<span class="keyword">this</span>);↵</div></pre></td></tr></table></figure>
+</li>
+<li><p>对链接起来的方法使用缩进成多行的形式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">$(<span class="string">'#items'</span>).find(<span class="string">'.selected'</span>).highlight().end().find(<span class="string">'.open'</span>).updateCount();</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">$(<span class="string">'#items'</span>)</div><div class="line">  .find(<span class="string">'.selected'</span>)</div><div class="line">    .highlight()</div><div class="line">    .end()</div><div class="line">  .find(<span class="string">'.open'</span>)</div><div class="line">    .updateCount();</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> leds = stage.selectAll(<span class="string">'.led'</span>).data(data).enter().append(<span class="string">'svg:svg'</span>).class(<span class="string">'led'</span>, <span class="literal">true</span>)</div><div class="line">    .attr(<span class="string">'width'</span>,  (radius + margin) * <span class="number">2</span>).append(<span class="string">'svg:g'</span>)</div><div class="line">    .attr(<span class="string">'transform'</span>, <span class="string">'translate('</span> + (radius + margin) + <span class="string">','</span> + (radius + margin) + <span class="string">')'</span>)</div><div class="line">    .call(tron.led);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> leds = stage.selectAll(<span class="string">'.led'</span>)</div><div class="line">    .data(data)</div><div class="line">  .enter().append(<span class="string">'svg:svg'</span>)</div><div class="line">    .class(<span class="string">'led'</span>, <span class="literal">true</span>)</div><div class="line">    .attr(<span class="string">'width'</span>,  (radius + margin) * <span class="number">2</span>)</div><div class="line">  .append(<span class="string">'svg:g'</span>)</div><div class="line">    .attr(<span class="string">'transform'</span>, <span class="string">'translate('</span> + (radius + margin) + <span class="string">','</span> + (radius + margin) + <span class="string">')'</span>)</div><div class="line">    .call(tron.led);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="逗号"><a href="#逗号" class="headerlink" title="逗号"></a>逗号</h2><ul>
+<li><p>推荐的做法是逗号在每一行的末尾</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> hero = &#123;</div><div class="line">    <span class="attr">firstName</span>: <span class="string">'Bob'</span></div><div class="line">  , <span class="attr">lastName</span>: <span class="string">'Parr'</span></div><div class="line">  , <span class="attr">heroName</span>: <span class="string">'Mr. Incredible'</span></div><div class="line">  , <span class="attr">superPower</span>: <span class="string">'strength'</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> hero = &#123;</div><div class="line">  <span class="attr">firstName</span>: <span class="string">'Bob'</span>,</div><div class="line">  <span class="attr">lastName</span>: <span class="string">'Parr'</span>,</div><div class="line">  <span class="attr">heroName</span>: <span class="string">'Mr. Incredible'</span>,</div><div class="line">  <span class="attr">superPower</span>: <span class="string">'strength'</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="分号作为语句块的结束"><a href="#分号作为语句块的结束" class="headerlink" title="分号作为语句块的结束"></a>分号作为语句块的结束</h2><ul>
+<li><p><strong>Yup.</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> name = <span class="string">'Skywalker'</span></div><div class="line">  <span class="keyword">return</span> name</div><div class="line">&#125;)()</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> name = <span class="string">'Skywalker'</span>;</div><div class="line">  <span class="keyword">return</span> name;</div><div class="line">&#125;)();</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">;(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> name = <span class="string">'Skywalker'</span>;</div><div class="line">  <span class="keyword">return</span> name;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="类型转换-amp-强制类型转换"><a href="#类型转换-amp-强制类型转换" class="headerlink" title="类型转换 &amp; 强制类型转换"></a>类型转换 &amp; 强制类型转换</h2><ul>
+<li>在声明语句的最前端执行强制类型转换.</li>
+<li><p>Strings:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  =&gt; this.reviewScore = 9;</span></div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> totalScore = <span class="keyword">this</span>.reviewScore + <span class="string">''</span>;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> totalScore = <span class="string">''</span> + <span class="keyword">this</span>.reviewScore;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> totalScore = <span class="string">''</span> + <span class="keyword">this</span>.reviewScore + <span class="string">' total score'</span>;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> totalScore = <span class="keyword">this</span>.reviewScore + <span class="string">' total score'</span>;</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用 <code>parseInt</code> 来进行整数的类型转换，并且始终提供一个基数.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> inputValue = <span class="string">'4'</span>;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> val = <span class="keyword">new</span> <span class="built_in">Number</span>(inputValue);</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> val = +inputValue;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> val = inputValue &gt;&gt; <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> val = <span class="built_in">parseInt</span>(inputValue);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> val = <span class="built_in">Number</span>(inputValue);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> val = <span class="built_in">parseInt</span>(inputValue, <span class="number">10</span>);</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果某种情况下你为了性能原因需要避免使用<code>parseInt</code>，而是使用移位操作符，请添加注释说明</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// good</span></div><div class="line"><span class="comment">/**</span></div><div class="line"> * parseInt was the reason my code was slow.</div><div class="line"> * Bitshifting the String to coerce it to a</div><div class="line"> * Number made it a lot faster.</div><div class="line"> */</div><div class="line"><span class="keyword">var</span> val = inputValue &gt;&gt; <span class="number">0</span>;</div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Note:</strong> 在使用移位操作符时需要特别谨慎. 数字使用 <a href="http://es5.github.io/#x4.3.19" target="_blank" rel="external">64-bit values</a>表示的, 但是移位操作符总是返回32-bit的整数 (<a href="http://es5.github.io/#x11.7" target="_blank" rel="external">source</a>). 这对大于32-bit的整数而言，这会导致意向不到的行为. <a href="https://github.com/airbnb/javascript/issues/109" target="_blank" rel="external">Discussion</a>. 最大的有符号32位整数是 2,147,483,647:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="number">2147483647</span> &gt;&gt; <span class="number">0</span> <span class="comment">//=&gt; 2147483647</span></div><div class="line"><span class="number">2147483648</span> &gt;&gt; <span class="number">0</span> <span class="comment">//=&gt; -2147483648</span></div><div class="line"><span class="number">2147483649</span> &gt;&gt; <span class="number">0</span> <span class="comment">//=&gt; -2147483647</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Booleans:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> age = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> hasAge = <span class="keyword">new</span> <span class="built_in">Boolean</span>(age);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> hasAge = <span class="built_in">Boolean</span>(age);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> hasAge = !!age;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="命名约定"><a href="#命名约定" class="headerlink" title="命名约定"></a>命名约定</h2><ul>
+<li><p>避免使用当个字符命名，使用描述性的名字：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">q</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// ...stuff...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">query</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// ..stuff..</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>对于对象、函数、和实例采用小驼峰（camelCase）命名法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> OBJEcttsssss = &#123;&#125;;</div><div class="line"><span class="keyword">var</span> this_is_my_object = &#123;&#125;;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">c</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line"><span class="keyword">var</span> u = <span class="keyword">new</span> user(&#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'Bob Parr'</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> thisIsMyObject = &#123;&#125;;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">thisIsMyFunction</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line"><span class="keyword">var</span> user = <span class="keyword">new</span> User(&#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'Bob Parr'</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>当命名类或构造函数时使用大驼峰或Pascal命名法（PascalCase）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">user</span>(<span class="params">options</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.name = options.name;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> bad = <span class="keyword">new</span> user(&#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'nope'</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">User</span>(<span class="params">options</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.name = options.name;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> good = <span class="keyword">new</span> User(&#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'yup'</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>在私有属性前加上一个 <code>_</code> 前缀</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">this</span>.__firstName__ = <span class="string">'Panda'</span>;</div><div class="line"><span class="keyword">this</span>.firstName_ = <span class="string">'Panda'</span>;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">this</span>._firstName = <span class="string">'Panda'</span>;</div></pre></td></tr></table></figure>
+</li>
+<li><p>当你要保存 <code>this</code> 值时，可以将其命名为 <code>_this</code>.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> self = <span class="keyword">this</span>;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(self);</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> that = <span class="keyword">this</span>;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(that);</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> _this = <span class="keyword">this</span>;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(_this);</div><div class="line">  &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>命名你的函数。这将有助于堆栈跟踪。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> log = <span class="function"><span class="keyword">function</span>(<span class="params">msg</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(msg);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> log = <span class="function"><span class="keyword">function</span> <span class="title">log</span>(<span class="params">msg</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(msg);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="访问器"><a href="#访问器" class="headerlink" title="访问器"></a>访问器</h2><ul>
+<li>属性访问器并不是必须的。</li>
+<li><p>如果你确实需要，请命名为 getVal() 和 setVal(‘hello’) 的形式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">dragon.age();</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">dragon.getAge();</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line">dragon.age(<span class="number">25</span>);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">dragon.setAge(<span class="number">25</span>);</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果属性是一个布尔值，请使用 isVal() 或 hasVal()</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">if</span> (!dragon.age()) &#123;</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">if</span> (!dragon.hasAge()) &#123;</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>你也可以创建 get() 和 set() 函数, 但一定要保持一致.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Jedi</span>(<span class="params">options</span>) </span>&#123;</div><div class="line">  options || (options = &#123;&#125;);</div><div class="line">  <span class="keyword">var</span> lightsaber = options.lightsaber || <span class="string">'blue'</span>;</div><div class="line">  <span class="keyword">this</span>.set(<span class="string">'lightsaber'</span>, lightsaber);</div><div class="line">&#125;</div><div class="line"></div><div class="line">Jedi.prototype.set = <span class="function"><span class="keyword">function</span>(<span class="params">key, val</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>[key] = val;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Jedi.prototype.get = <span class="function"><span class="keyword">function</span>(<span class="params">key</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>[key];</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><ul>
+<li><p>在原型链上增加属性，而不是覆写原型链。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Jedi</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'new jedi'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line">Jedi.prototype = &#123;</div><div class="line">  <span class="attr">fight</span>: <span class="function"><span class="keyword">function</span> <span class="title">fight</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'fighting'</span>);</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="attr">block</span>: <span class="function"><span class="keyword">function</span> <span class="title">block</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'blocking'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">Jedi.prototype.fight = <span class="function"><span class="keyword">function</span> <span class="title">fight</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'fighting'</span>);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Jedi.prototype.block = <span class="function"><span class="keyword">function</span> <span class="title">block</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'blocking'</span>);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+<li><p>你可以在方法中返回 <code>this</code> 从而来构建可链接的方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">Jedi.prototype.jump = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.jumping = <span class="literal">true</span>;</div><div class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Jedi.prototype.setHeight = <span class="function"><span class="keyword">function</span>(<span class="params">height</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.height = height;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> luke = <span class="keyword">new</span> Jedi();</div><div class="line">luke.jump(); <span class="comment">// =&gt; true</span></div><div class="line">luke.setHeight(<span class="number">20</span>) <span class="comment">// =&gt; undefined</span></div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">Jedi.prototype.jump = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.jumping = <span class="literal">true</span>;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Jedi.prototype.setHeight = <span class="function"><span class="keyword">function</span>(<span class="params">height</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.height = height;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> luke = <span class="keyword">new</span> Jedi();</div><div class="line"></div><div class="line">luke.jump()</div><div class="line">  .setHeight(<span class="number">20</span>);</div></pre></td></tr></table></figure>
+</li>
+<li><p>你可以创建一个自定义的<code>toString()</code>方法，但是你要确保它能正常工作并且没有其他副作用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Jedi</span>(<span class="params">options</span>) </span>&#123;</div><div class="line">  options || (options = &#123;&#125;);</div><div class="line">  <span class="keyword">this</span>.name = options.name || <span class="string">'no name'</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Jedi.prototype.getName = <span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.name;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Jedi.prototype.toString = <span class="function"><span class="keyword">function</span> <span class="title">toString</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="string">'Jedi - '</span> + <span class="keyword">this</span>.getName();</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="ES6箭头函数"><a href="#ES6箭头函数" class="headerlink" title="ES6箭头函数"></a>ES6箭头函数</h2><ul>
+<li><p>当你必须使用函数表达式（或传递一个匿名函数时），使用箭头函数符号（能够自动绑定<code>this</code>到父对象）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> x * x;  </div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function">(<span class="params">x</span>) =&gt;</span> x * x);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>建议所有的Arrow Function的参数均使用 <code>()</code>包裹，即便只有一个参数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">  <span class="comment">// good</span></div><div class="line">  <span class="keyword">let</span> foo = <span class="function">(<span class="params">x</span>) =&gt;</span> x + <span class="number">1</span>;</div><div class="line">  </div><div class="line">  <span class="comment">// bad</span></div><div class="line">  <span class="keyword">let</span> foo = <span class="function"><span class="params">x</span> =&gt;</span> x + <span class="number">1</span>;</div><div class="line">  <span class="string">``</span></div><div class="line"></div><div class="line">- 对于对象、类中的方法，使用增强的对象字面量</div><div class="line"></div><div class="line">  <span class="string">``</span><span class="string">`javascript</span></div><div class="line">  // good</div><div class="line">  let foo = &#123;</div><div class="line">    bar () &#123;</div><div class="line">      // code  </div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  // bad</div><div class="line">  let foo = &#123;</div><div class="line">    bar: () =&gt; &#123;</div><div class="line">      // code </div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  // bad</div><div class="line">  let foo = &#123;</div><div class="line">    bar: function () &#123;</div><div class="line">      // code</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong>    </p>
+<h2 id="ES6增强的对象字面量"><a href="#ES6增强的对象字面量" class="headerlink" title="ES6增强的对象字面量"></a>ES6增强的对象字面量</h2><ul>
+<li><p>可以在对象总直接定义方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">let</span> foo = &#123;</div><div class="line">  bar() &#123;</div><div class="line">    <span class="comment">// code  </span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>可使用通过计算得出的键值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 当你需要的时候使用</span></div><div class="line"><span class="keyword">let</span> MY_KEY = <span class="string">'bar'</span>;</div><div class="line"><span class="keyword">let</span> foo = &#123;</div><div class="line">  [MY_KEY + <span class="string">'Hash'</span>]: <span class="number">123</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>与当前scope中同名变量的简写</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">let</span> bar = <span class="string">'bar'</span>;</div><div class="line"><span class="keyword">let</span> foo = &#123;</div><div class="line">    bar <span class="comment">// 相当于bar: bar</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="ES6模板字符串"><a href="#ES6模板字符串" class="headerlink" title="ES6模板字符串"></a>ES6模板字符串</h2><ul>
+<li><p>不推荐使用多行字符串，因为不方便代码缩进</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">let</span> html = </div><div class="line"><span class="string">`&lt;div&gt;</span></div><div class="line">  &lt;p&gt;Hello world&lt;/p&gt;</div><div class="line">&lt;/div&gt;`</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>推荐使用ES6的字符串变量替换功能，这样可以取代字符串拼接</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//good</span></div><div class="line"><span class="keyword">let</span> name = <span class="string">'weiwei'</span>;</div><div class="line"><span class="keyword">let</span> time = <span class="string">'22:00'</span>;</div><div class="line"><span class="keyword">let</span> message = <span class="string">`Hello <span class="subst">$&#123;name&#125;</span>, it's <span class="subst">$&#123;time&#125;</span> now`</span>;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="ES6函数参数增强"><a href="#ES6函数参数增强" class="headerlink" title="ES6函数参数增强"></a>ES6函数参数增强</h2><ul>
+<li><p>推荐使用默认值、剩余参数等功能，这能让你的函数声明和调用变得更为简洁</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = <span class="function">(<span class="params">x = <span class="number">1</span></span>) =&gt;</span> x + <span class="number">1</span>;</div><div class="line">foo(); <span class="comment">// 2</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> extend = <span class="function">(<span class="params">source, ...args</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> target <span class="keyword">in</span> args) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> name <span class="keyword">in</span> <span class="built_in">Object</span>.keys(target) &#123;</div><div class="line">            <span class="keyword">if</span> (!source.hasOwnProperty(name) &#123;</div><div class="line">                source[name] = target[name];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> extensions = [</div><div class="line">    &#123;<span class="attr">name</span>: <span class="string">'Zhang'</span>&#125;,</div><div class="line">    &#123;<span class="attr">age</span>: <span class="number">17</span>&#125;,</div><div class="line">    &#123;<span class="attr">work</span>: <span class="string">'hard'</span>&#125;</div><div class="line">];</div><div class="line">extend(&#123;&#125;, ...extensions);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="ES6新增关键字let和const"><a href="#ES6新增关键字let和const" class="headerlink" title="ES6新增关键字let和const"></a>ES6新增关键字let和const</h2><ul>
+<li><p>推荐使用<code>let</code>全面代替<code>var</code>，因为它创建了块级作用域变量（变量只在代码块内生效），尤其是<code>for</code>循环</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">  foo[i].onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(i);</div><div class="line">  &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>建议自由在逻辑上是常量的情况才使用 <code>const</code>，它代表常量，定的同时必须赋值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">const</span> MAX_CAT_SIZE_KG = <span class="number">3000</span>; </div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line">MAX_CAT_SIZE_KG = <span class="number">5000</span>; <span class="comment">// SyntaxError</span></div><div class="line">MAX_CAT_SIZE_KG++; <span class="comment">// nice try, but still a SyntaxError</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="ES6迭代器和for-of"><a href="#ES6迭代器和for-of" class="headerlink" title="ES6迭代器和for..of"></a>ES6迭代器和<code>for..of</code></h2><ul>
+<li><p>推荐使用<code>for..of</code>来迭代集合对象（Array, Map, Set, arguments对象）的<strong>值</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> array) &#123;</div><div class="line">  <span class="comment">// do somehting</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>避免使用<code>for...in</code>来迭代结合对象，它通常用于迭代对象的<strong>属性名</strong></li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="ES6生成器"><a href="#ES6生成器" class="headerlink" title="ES6生成器"></a>ES6生成器</h2><ul>
+<li><p>谨慎使用生成器，异步控制器的未来是<code>async</code>和<code>await</code>这两个关键字</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">save</span>(<span class="params">Something</span>) </span>&#123;  </div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    <span class="keyword">await</span> Something.save(); <span class="comment">// 等待await后面的代码执行完，类似于yield</span></div><div class="line">  &#125; <span class="keyword">catch</span> (ex) &#123;</div><div class="line">    <span class="comment">//error handling</span></div><div class="line">  &#125;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'success'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="ES6模块"><a href="#ES6模块" class="headerlink" title="ES6模块"></a>ES6模块</h2><ul>
+<li>谨慎使用ES6的模块系统，Node项目建议使用CommonJS方案，因为ES6并没有包括模块加载器规范，<a href="http://www.csdn.net/article/2015-04-30/2824595-Modules-in-ES6" target="_blank" rel="external">参考文章</a> </li>
+<li>或者使用ES6的模块定义，但使用ADM作为运行时模块解决方案<ul>
+<li>保持使用<code>import</code>和<code>export</code>进行模块的引入和定义，可以安全地使用命名<code>export</code>和默认<code>export</code></li>
+<li>在使用Babel转换时，配置<code>modules: &#39;amd&#39;</code>转换为AMD的模块定义</li>
+<li>不要依赖<code>SystemJS</code>这样的ES6模块加载器</li>
+</ul>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="ES6新增集合Map和Set"><a href="#ES6新增集合Map和Set" class="headerlink" title="ES6新增集合Map和Set"></a>ES6新增集合Map和Set</h2><ul>
+<li>当你的元素或者键值有可能不是字符串时，无条件地使用<code>Map</code>和<code>Set</code></li>
+<li>有移除操作的需求时，使用<code>Map</code>和<code>Set</code></li>
+<li>当仅需要一个不可重复的集合时，使用<code>Set</code>优先于普通对象，而不要使用<code>{foo: true}</code>这样的对象</li>
+<li>当需要遍历功能时，使用<code>Map</code>和<code>Set</code>，因为其可以简单地使用<code>for..of</code>进行遍历</li>
+<li><code>WeakMap</code>和<code>WeakSet</code>是没有办法模拟实现的，因此不要使用</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="ES6-Promise"><a href="#ES6-Promise" class="headerlink" title="ES6 Promise"></a>ES6 Promise</h2><ul>
+<li><p>建议所有异步均使用Promise实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 构造一个Promise实例</span></div><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">  <span class="comment">// ... some code</span></div><div class="line"></div><div class="line">  <span class="keyword">if</span> (<span class="comment">/* 异步操作成功 */</span>)&#123;</div><div class="line">    resolve(value);</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    reject(error);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>Promise实例生成后，可以用<code>then</code>方法分别制定Resolved状态和Reject状态的回调函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">promise.then(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</div><div class="line">  <span class="comment">// success</span></div><div class="line">&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</div><div class="line">  <span class="comment">// failure</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h2 id="推荐的书"><a href="#推荐的书" class="headerlink" title="推荐的书"></a>推荐的书</h2><ul>
+<li><a href="http://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742" target="_blank" rel="external">JavaScript: The Good Parts</a> - Douglas Crockford</li>
+<li><a href="http://www.amazon.com/JavaScript-Patterns-Stoyan-Stefanov/dp/0596806752" target="_blank" rel="external">JavaScript Patterns</a> - Stoyan Stefanov</li>
+<li><a href="http://www.amazon.com/JavaScript-Design-Patterns-Recipes-Problem-Solution/dp/159059908X" target="_blank" rel="external">Pro JavaScript Design Patterns</a>  - Ross Harmes and Dustin Diaz</li>
+<li><a href="http://www.amazon.com/High-Performance-Web-Sites-Essential/dp/0596529309" target="_blank" rel="external">High Performance Web Sites: Essential Knowledge for Front-End Engineers</a> - Steve Souders</li>
+<li><a href="http://www.amazon.com/Maintainable-JavaScript-Nicholas-C-Zakas/dp/1449327680" target="_blank" rel="external">Maintainable JavaScript</a> - Nicholas C. Zakas</li>
+<li><a href="http://www.amazon.com/JavaScript-Web-Applications-Alex-MacCaw/dp/144930351X" target="_blank" rel="external">JavaScript Web Applications</a> - Alex MacCaw</li>
+<li><a href="http://www.amazon.com/Pro-JavaScript-Techniques-John-Resig/dp/1590597273" target="_blank" rel="external">Pro JavaScript Techniques</a> - John Resig</li>
+<li><a href="http://www.amazon.com/Smashing-Node-js-JavaScript-Everywhere-Magazine/dp/1119962595" target="_blank" rel="external">Smashing Node.js: JavaScript Everywhere</a> - Guillermo Rauch</li>
+<li><a href="http://www.amazon.com/Secrets-JavaScript-Ninja-John-Resig/dp/193398869X" target="_blank" rel="external">Secrets of the JavaScript Ninja</a> - John Resig and Bear Bibeault</li>
+<li><a href="http://humanjavascript.com/" target="_blank" rel="external">Human JavaScript</a> - Henrik Joreteg</li>
+<li><a href="http://superherojs.com/" target="_blank" rel="external">Superhero.js</a> - Kim Joar Bekkelund, Mads Mobæk, &amp; Olav Bjorkoy</li>
+<li><a href="http://jsbooks.revolunet.com/" target="_blank" rel="external">JSBooks</a></li>
+<li><a href="http://manning.com/vinegar/" target="_blank" rel="external">Third Party JavaScript</a> - Ben Vinegar and Anton Kovalyov</li>
+</ul>
+<h2 id="推荐的博客"><a href="#推荐的博客" class="headerlink" title="推荐的博客"></a>推荐的博客</h2><ul>
+<li><a href="http://dailyjs.com/" target="_blank" rel="external">DailyJS</a></li>
+<li><a href="http://javascriptweekly.com/" target="_blank" rel="external">JavaScript Weekly</a></li>
+<li><a href="http://javascriptweblog.wordpress.com/" target="_blank" rel="external">JavaScript, JavaScript…</a></li>
+<li><a href="http://weblog.bocoup.com/" target="_blank" rel="external">Bocoup Weblog</a></li>
+<li><a href="http://www.adequatelygood.com/" target="_blank" rel="external">Adequately Good</a></li>
+<li><a href="http://www.nczonline.net/" target="_blank" rel="external">NCZOnline</a></li>
+<li><a href="http://perfectionkills.com/" target="_blank" rel="external">Perfection Kills</a></li>
+<li><a href="http://benalman.com/" target="_blank" rel="external">Ben Alman</a></li>
+<li><a href="http://dmitry.baranovskiy.com/" target="_blank" rel="external">Dmitry Baranovskiy</a></li>
+<li><a href="http://dustindiaz.com/" target="_blank" rel="external">Dustin Diaz</a></li>
+<li><a href="http://net.tutsplus.com/?s=javascript" target="_blank" rel="external">nettuts</a></li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<p><strong>The JavaScript Style Guide Guide</strong></p>
+<ul>
+<li><a href="https://github.com/airbnb/javascript/wiki/The-JavaScript-Style-Guide-Guide" target="_blank" rel="external">Reference</a></li>
+</ul>
+<p><strong><a href="#">⬆ back to top</a></strong></p>
+<h1 id=""><a href="#" class="headerlink" title="};"></a>};</h1>
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/09/01/js-version/" data-toggle="tooltip" data-placement="top" title="「Rep」JavaScript's Version History">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/09/01/js-review-notes/" data-toggle="tooltip" data-placement="top" title="JavaScript Reviewing Notes">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#转载" title="转载">转载</a>
+                        
+                          <a class="tag" href="/tags/#Node.js" title="Node.js">Node.js</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hexo-theme-huxblog";
+    var disqus_identifier = "carlsiry.io/2016/09/01/node-style-guide/";
+    var disqus_url = "carlsiry.io/2016/09/01/node-style-guide/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/陈小小生">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/carlsiry">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Awaiting K.I.S.S 2017
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("carlsiry.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="carlsiry.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

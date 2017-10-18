@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Destructuring in ECMAScript 6 - 陈坎生的博客 | Carlsiry&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="carlsiry.io/2016/11/01/Destructuring-in-ES6/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Carson's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">首页</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">陈坎生</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">归档</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="carlsiry.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('post-bg-js-version.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#ECMAScript6" title="ECMAScript6">ECMAScript6</a>
+                        
+                          <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                    <h1>Destructuring in ECMAScript 6</h1>
+                    <h2 class="subheading">变量的解构赋值 ——《ECMAScript 6 Primer》学习笔记</h2>
+                    <span class="meta">
+                        Posted by Carson on
+                        2016-11-01
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p><strong>Distructuring</strong>（解构赋值）：按指定的结构模式，从数组和对象中提取出值对变量赋值</p>
+</blockquote>
+<h3 id="数组的解构赋值"><a href="#数组的解构赋值" class="headerlink" title="数组的解构赋值"></a>数组的解构赋值</h3><ul>
+<li>基本用法：如果赋值号两边的模式相同，左边的变量会被赋予对应右边位置的值</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var [a, b, c] = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>];</div><div class="line">let [foo, <span class="string">[[bar], baz]]</span> = [a, <span class="string">[[b], c]]</span>;</div><div class="line">console.log(a, foo); // <span class="number">1</span></div><div class="line">console.log(b, bar); // <span class="number">3</span></div><div class="line">console.log(c, baz); // <span class="number">5</span></div></pre></td></tr></table></figure>
+<ul>
+<li>用于集合结构中(具备Iterator接口)</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]);</div><div class="line"><span class="built_in">console</span>.log(a); <span class="comment">// Set &#123;'a', 'b', 'c'&#125;</span></div></pre></td></tr></table></figure>
+<ul>
+<li><strong>默认值</strong>：如果数组成员不严格等于<code>undefined</code>，将会覆盖默认值</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> [x = <span class="number">1</span>] = [<span class="literal">null</span>];</div><div class="line"><span class="built_in">console</span>.log(x); <span class="comment">// 1</span></div></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">// 默认值式函数表达式</div><div class="line">console.log([<span class="string">1, 3</span>][<span class="symbol">1</span>]); // 3</div><div class="line">function f() &#123;</div><div class="line"><span class="code">    return 'fun';</span></div><div class="line">&#125;</div><div class="line">var [x = f()] = ['first'];</div><div class="line">console.log(x); // first</div><div class="line"></div><div class="line">if ([<span class="string">2, 3</span>][<span class="symbol">1</span>] === undefined) &#123;</div><div class="line"><span class="code">    x = f()</span></div><div class="line">&#125; else &#123;</div><div class="line"><span class="code">    x = [2, 3][1];</span></div><div class="line">&#125;</div><div class="line">console.log(x);</div></pre></td></tr></table></figure>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// 默认值也可以是引用解构赋值的其他变量（必须已经申明）</div><div class="line"><span class="keyword">let</span> [<span class="attr">x</span> = <span class="number">1</span>, <span class="attr">y</span> = x] = []; // <span class="attr">x</span> = <span class="number">1</span>; <span class="attr">y</span> = <span class="number">1</span>;</div><div class="line"><span class="keyword">let</span> [<span class="attr">a</span> = <span class="number">1</span>, <span class="attr">b</span> = a] = []; // <span class="attr">a</span> = <span class="number">1</span>; <span class="attr">b</span> = <span class="number">1</span>;</div><div class="line"><span class="keyword">let</span> [<span class="attr">c</span> = d, <span class="attr">d</span> = <span class="number">1</span>] = []; // Referenceerror: d is not defiened</div></pre></td></tr></table></figure>
+<h3 id="对象的解构赋值"><a href="#对象的解构赋值" class="headerlink" title="对象的解构赋值"></a>对象的解构赋值</h3><blockquote>
+<p>对象的解构赋值可以很方便地将现有对象的方法赋值到某个变量上，这样使用某些对象的方法可以变得非常方便。</p>
+</blockquote>
+<ul>
+<li>为同属性名的变量赋值，对顺序没有要求</li>
+</ul>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//======= demo1: 为同属性名变量赋值， 对顺序没有要求</span></div><div class="line">var &#123;foo, <span class="built_in">bar</span>&#125; = &#123;foo: 'aaa', <span class="built_in">bar</span>: 'bbb'&#125;;</div><div class="line">console.<span class="built_in">log</span>(foo);</div><div class="line">console.<span class="built_in">log</span>(<span class="built_in">bar</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ====== demo2: 变量名与属性名不不一致的情形下</span></div><div class="line">var  &#123;<span class="built_in">bar</span>: foo&#125; = &#123;<span class="built_in">bar</span>: <span class="string">"bbb"</span>&#125;;</div><div class="line">console.<span class="built_in">log</span>(foo);  <span class="comment">// bbb</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>实际上说明，对象的解构赋值是：<code>var {bar: bar} = {bar: &#39;bbb&#39;}</code><br>也就是说，解构赋值的内部机制是先找到同名属性，再赋给对应的变量，真正被赋值的不是前者</p>
+</blockquote>
+<ul>
+<li>模式名与变量：模式用来匹配查询，不会被赋值</li>
+</ul>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// ====== demo3: 解构方式的变量声明和赋值是一体的</div><div class="line">// 对于<span class="keyword">let</span>,const 注意不能重新声明</div><div class="line"><span class="keyword">let</span> baz;</div><div class="line">//此处要用圆括号，表示为表达式整体，否则会被分开看作两个代码块</div><div class="line">(&#123;bar:baz&#125; = &#123; bar: <span class="string">'bbbb'</span>&#125;); // baz == <span class="string">'bbb'</span>; </div><div class="line">// 以下为错误重新对变量声明</div><div class="line">// <span class="keyword">let</span> &#123;bar:baz&#125; = &#123; bar: <span class="string">'bbbb'</span>&#125;;</div></pre></td></tr></table></figure>
+<ul>
+<li>用于嵌套解构的对象</li>
+</ul>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ====== demo4: 用于嵌套解构的对象</span></div><div class="line"><span class="keyword">var</span> node = &#123;</div><div class="line">    <span class="keyword">loc</span>: &#123;</div><div class="line">        start: &#123;</div><div class="line">            <span class="keyword">line</span>: 1,</div><div class="line">            column: 4</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="comment">// 声明 a, c 两个变量</span></div><div class="line"><span class="keyword">var</span> &#123;<span class="keyword">loc</span>: &#123;start: &#123;<span class="keyword">line</span>:a, column:c&#125;&#125;&#125; = node;</div><div class="line">console.<span class="built_in">log</span>(a, c);</div><div class="line"></div><div class="line"><span class="comment">// 声明loc一个变量</span></div><div class="line"><span class="keyword">var</span> &#123;<span class="keyword">loc</span>&#125; = node;</div><div class="line">console.<span class="built_in">log</span>(<span class="keyword">loc</span>);</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>默认值</strong>：生效条件是，对象的属性值严格等于<code>undefined</code></li>
+</ul>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var &#123;<span class="keyword">x</span> = <span class="number">3</span>, y = <span class="keyword">x</span>&#125; = &#123;<span class="keyword">x</span>: <span class="keyword">null</span>&#125;<span class="comment">;</span></div></pre></td></tr></table></figure>
+<h3 id="字符串的解构赋值"><a href="#字符串的解构赋值" class="headerlink" title="字符串的解构赋值"></a>字符串的解构赋值</h3><ul>
+<li>字符串会被实质上是类似数组的对象，所以也有解构赋值的用法</li>
+</ul>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> [a, b, c, d, e] = 'hello';</div><div class="line"><span class="keyword">const</span> &#123;<span class="built_in">length</span>&#125; = 'hello'; <span class="comment">// 字符串对象有长度属性，可用对象解构获取</span></div><div class="line">console.<span class="built_in">log</span>(a, b, c, d, e); <span class="comment">// h e l l o</span></div><div class="line">console.<span class="built_in">log</span>(<span class="built_in">length</span>); <span class="comment">// 5</span></div></pre></td></tr></table></figure>
+<h3 id="数值和布尔值的解构赋值"><a href="#数值和布尔值的解构赋值" class="headerlink" title="数值和布尔值的解构赋值"></a>数值和布尔值的解构赋值</h3><p>数值和布尔值解构会先转换为对象（解构规则是，只要等号右边值不是对象都会先转换为对象，<code>undefined</code>、<code>null</code>除外）</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> &#123;<span class="keyword">toString</span>: num_s&#125; = 1;</div><div class="line">console.<span class="built_in">log</span>(num_s === Number.prototype.<span class="keyword">toString</span>); <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> &#123;<span class="keyword">toString</span>: bool_s&#125; = true;</div><div class="line">console.<span class="built_in">log</span>(bool_s === Boolean.prototype.<span class="keyword">toString</span>); <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<h3 id="函数参数的解构赋值"><a href="#函数参数的解构赋值" class="headerlink" title="函数参数的解构赋值"></a>函数参数的解构赋值</h3><ul>
+<li>函数参数的解构赋值用法</li>
+</ul>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ======== demo1: 参数套用数组解构模式</span></div><div class="line"><span class="comment">// 实际上是通过解构得到两个变量</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> <span class="params">([x,y]=[])</span> <span class="comment">&#123;</span></span></div><div class="line">    return x + y;</div><div class="line">&#125;</div><div class="line"><span class="title">let</span> <span class="title">result</span> = <span class="title">add</span><span class="params">()</span>;</div><div class="line">console.log(<span class="keyword">result</span>); <span class="comment">// NaN</span></div><div class="line"><span class="keyword">result</span> = <span class="keyword">add</span>([<span class="number">1</span>,<span class="number">3</span>]);</div><div class="line">console.log(<span class="keyword">result</span>); <span class="comment">// 4</span></div></pre></td></tr></table></figure>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ====== demo2: 参数套用对象解构模式</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> <span class="params">(&#123;x,y&#125;=&#123;&#125;)</span> <span class="comment">&#123;</span></span></div><div class="line">    return x + y;</div><div class="line">&#125;</div><div class="line"><span class="title">let</span> <span class="title">result</span> = <span class="title">add</span><span class="params">()</span>;</div><div class="line">console.log(<span class="keyword">result</span>); <span class="comment">// NaN</span></div><div class="line"><span class="keyword">result</span> = <span class="keyword">add</span>(<span class="comment">&#123;x: 1, y: 3&#125;</span>);</div><div class="line">console.log(<span class="keyword">result</span>); <span class="comment">// 4</span></div></pre></td></tr></table></figure>
+<ul>
+<li>函数参数的默认值用法</li>
+</ul>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ====== demo3: 设置函数参数的解构默认值</span></div><div class="line"><span class="comment">// 设置函数参数的默认值不可忽略 赋值号和右值</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> <span class="params">(&#123;x=0, y=0&#125; = &#123;&#125;)</span> <span class="comment">&#123;</span></span></div><div class="line">    return x + y;</div><div class="line">&#125;</div><div class="line">//注意 如果函数定义为<span class="title">add</span><span class="params">(&#123;x=0, y=0&#125;)</span>; 咩有设定默认函数参数调用是如果传空会报错（不能解构）</div><div class="line">let <span class="keyword">result</span> = <span class="keyword">add</span>(<span class="comment">&#123;a: 'x'&#125;</span>);</div><div class="line">console.log(<span class="keyword">result</span>); <span class="comment">// 0</span></div><div class="line"><span class="keyword">result</span> = <span class="keyword">add</span>(<span class="comment">&#123;x: 1, y: 3&#125;</span>);</div><div class="line">console.log(<span class="keyword">result</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ====== demo4: 区分函数的默认解构变量与函数默认参数变量</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> <span class="params">(&#123;x, y&#125; = &#123;x:0, y:0&#125;)</span> <span class="comment">&#123; // 与 add (&#123;x=0, y=0&#125;</span> = <span class="comment">&#123;&#125;</span>) 不同</span></div><div class="line">    <span class="title">return</span> <span class="title">x</span> + <span class="title">y</span>;</div><div class="line">&#125;</div><div class="line">let <span class="keyword">result</span> = <span class="keyword">add</span>(<span class="comment">&#123;a: 'x'&#125;</span>);</div><div class="line">console.log(<span class="keyword">result</span>); <span class="comment">// not 0 ,is NaN, because y equals undefined</span></div><div class="line"><span class="keyword">result</span> = <span class="keyword">add</span>();</div><div class="line">console.log(<span class="keyword">result</span>); <span class="comment">// absoluate 0 haha...</span></div></pre></td></tr></table></figure>
+<h3 id="解构赋值的用途"><a href="#解构赋值的用途" class="headerlink" title="解构赋值的用途"></a>解构赋值的用途</h3><ul>
+<li>交换变量的值</li>
+</ul>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ========== demo1: 交换变量的值</span></div><div class="line"><span class="keyword">let</span> x = <span class="number">1</span>, y =<span class="number">1</span>;</div><div class="line">[x, y] = [y, x];</div><div class="line">console.<span class="built_in">log</span>(x, y); <span class="comment">// -1, 1</span></div></pre></td></tr></table></figure>
+<ul>
+<li>提取从函数返回的多个值</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">foo</span>: <span class="number">1</span>,</div><div class="line">        <span class="attr">bar</span>: <span class="number">2</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> &#123;foo, bar&#125; = test();</div><div class="line"><span class="built_in">console</span>.log(foo, bar); <span class="comment">// 1 2</span></div></pre></td></tr></table></figure>
+<ul>
+<li>函数参数的定义</li>
+</ul>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// 参数已一组有次序的值</div><div class="line">function f([x, y, z]=[]) <span class="meta">&#123;...&#125;</span></div><div class="line">f([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>,]);</div><div class="line"></div><div class="line">// 参数是一组无次序的值</div><div class="line">function f(&#123;x, y, z&#125;=&#123;&#125;) <span class="meta">&#123;...&#125;</span></div><div class="line">f(&#123;y:<span class="number">2</span>, x:<span class="number">1</span>, z:<span class="number">3</span>&#125;);</div></pre></td></tr></table></figure>
+<ul>
+<li>提取JSON数据</li>
+</ul>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var jsonData = &#123;</div><div class="line">    id : <span class="number">2</span>,</div><div class="line">    <span class="keyword">status</span> : <span class="string">"OK"</span>,</div><div class="line">    <span class="keyword">data</span>: [<span class="number">123</span>, <span class="number">456</span>]</div><div class="line">&#125;;</div><div class="line"></div><div class="line">let &#123;id, <span class="keyword">status</span>, <span class="keyword">data</span>: <span class="keyword">number</span>&#125; = jsonData;</div><div class="line">console.<span class="built_in">log</span>(id, <span class="keyword">status</span>, <span class="keyword">number</span>); // <span class="number">2</span> <span class="string">'OK'</span> [ <span class="number">123</span>, <span class="number">456</span> ]</div></pre></td></tr></table></figure>
+<ul>
+<li>遍历 <strong>Map</strong> 结构</li>
+</ul>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 实例化图型键值对数据结构</span></div><div class="line"><span class="keyword">var</span> myMap = <span class="keyword">new</span> Map();</div><div class="line">myMap.<span class="keyword">set</span>(<span class="string">'first'</span>, <span class="string">'Hello'</span>);</div><div class="line">myMap.<span class="keyword">set</span>(<span class="string">'second'</span>, <span class="string">'World'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 获取键值对</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> [key, <span class="keyword">value</span>] of myMap) &#123;</div><div class="line">    console.log(key + <span class="string">'is'</span> + <span class="keyword">value</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 只获取键名</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> [key] of myMpa) &#123;</div><div class="line">    console.log(key);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 只获取键值</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> [, <span class="keyword">value</span>] fo myMap) &#123;</div><div class="line">    console.log(<span class="keyword">value</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>输入模块的指定方法</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> &#123;SourceMapConsumer, SourceNode&#125; = <span class="built_in">require</span>(<span class="string">"source-map"</span>);</div></pre></td></tr></table></figure>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/10/30/let-const/" data-toggle="tooltip" data-placement="top" title="Let and Const Command">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/11/05/i-dont-know-py/" data-toggle="tooltip" data-placement="top" title="I Don't Know Python">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#ECMAScript6" title="ECMAScript6">ECMAScript6</a>
+                        
+                          <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hexo-theme-huxblog";
+    var disqus_identifier = "carlsiry.io/2016/11/01/Destructuring-in-ES6/";
+    var disqus_url = "carlsiry.io/2016/11/01/Destructuring-in-ES6/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/陈小小生">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/carlsiry">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Awaiting K.I.S.S 2017
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("carlsiry.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="carlsiry.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

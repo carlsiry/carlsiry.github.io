@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          I Don&#39;t Know Python - 陈坎生的博客 | Carlsiry&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="carlsiry.io/2016/11/05/i-dont-know-py/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Carson's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">首页</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">陈坎生</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">归档</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="carlsiry.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                        
+                    </div>
+                    <h1>I Don&#39;t Know Python</h1>
+                    <h2 class="subheading">我不知道的Python</h2>
+                    <span class="meta">
+                        Posted by Carson on
+                        2016-11-05
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="我不知道的-Python"><a href="#我不知道的-Python" class="headerlink" title="我不知道的 Python"></a>我不知道的 <strong>Python</strong></h2><p>记录一些跟我平常比较陌生的 <strong>Python</strong> 用法。</p>
+<h3 id="自文档化的-Python-语言"><a href="#自文档化的-Python-语言" class="headerlink" title="自文档化的 Python 语言"></a>自文档化的 <strong>Python</strong> 语言</h3><p>一直以来都忽视了这门语言的一友好性，<strong>Python</strong> 对大多函数和模块都自带简短的解释文档，可以省下去网上查阅文档和书籍的时间，真的是非常的方便。</p>
+<ul>
+<li>列出模块中的所有函数—— <code>dir()</code></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;</span>&gt; import math</div><div class="line"><span class="meta">&gt;&gt;</span>&gt; dir(math)</div><div class="line">[<span class="string">'__doc__'</span>, <span class="string">'__name__'</span>, <span class="string">'__package__'</span>, <span class="string">'acos'</span>, <span class="string">'acosh'</span>, <span class="string">'asin'</span>, <span class="string">'asinh'</span>, </div><div class="line"><span class="string">'atan'</span>, <span class="string">'atan2'</span>, <span class="string">'atanh'</span>, <span class="string">'ceil'</span>, <span class="string">'copysign'</span>, <span class="string">'cos'</span>, <span class="string">'cosh'</span>, <span class="string">'degrees'</span>, <span class="string">'e'</span>, </div><div class="line"><span class="string">'erf'</span>, <span class="string">'erfc'</span>, <span class="string">'exp'</span>, <span class="string">'expm1'</span>, <span class="string">'fabs'</span>, <span class="string">'factorial'</span>, <span class="string">'floor'</span>, <span class="string">'fmod'</span>, <span class="string">'frexp'</span>, </div><div class="line"><span class="string">'fsum'</span>, <span class="string">'gamma'</span>, <span class="string">'hypot'</span>, <span class="string">'isinf'</span>, <span class="string">'isnan'</span>, <span class="string">'ldexp'</span>, <span class="string">'lgamma'</span>, <span class="string">'log'</span>, <span class="string">'log10'</span>, </div><div class="line"><span class="string">'log1p'</span>, <span class="string">'modf'</span>, <span class="string">'pi'</span>, <span class="string">'pow'</span>, <span class="string">'radians'</span>, <span class="string">'sin'</span>, <span class="string">'sinh'</span>, <span class="string">'sqrt'</span>, <span class="string">'tan'</span>, <span class="string">'tanh'</span>, </div><div class="line"><span class="string">'trunc'</span>]</div></pre></td></tr></table></figure>
+<ul>
+<li>查看完整的 <strong>Python</strong> 内置函数清单</li>
+</ul>
+<p><code>&gt;&gt;&gt; dir(__builtins__)</code></p>
+<ul>
+<li>查看模块或函数的文档字符串</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 查看math模块的帮助文档</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; help(math)</div><div class="line"><span class="comment"># 查看具体到函数的帮助文档</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; help(math.log)</div></pre></td></tr></table></figure>
+<ul>
+<li>打印文档字符串</li>
+</ul>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; print (math.__doc__)</div><div class="line">This module is always available.  It provides access <span class="built_in">to</span> <span class="keyword">the</span></div><div class="line">mathematical functions defined <span class="keyword">by</span> <span class="keyword">the</span> C standard.</div><div class="line"></div><div class="line">&gt;&gt;&gt; print (math.<span class="built_in">log</span>.__doc__)</div><div class="line"><span class="built_in">log</span>(x[, base])</div><div class="line"></div><div class="line">Return <span class="keyword">the</span> logarithm <span class="keyword">of</span> x <span class="built_in">to</span> <span class="keyword">the</span> given base.</div><div class="line">If <span class="keyword">the</span> base <span class="keyword">not</span> specified, returns <span class="keyword">the</span> natural logarithm (base e) <span class="keyword">of</span> x.</div></pre></td></tr></table></figure>
+<ul>
+<li>自定义文档字符串</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">area</span><span class="params">(radius)</span>:</span></div><div class="line">    <span class="string">"""Returns the area of a circle with given radius.</span></div><div class="line">    For example:</div><div class="line">    &gt;&gt;&gt; area(2)</div><div class="line">    12.566370614359172</div><div class="line">    """</div><div class="line">    <span class="keyword">return</span> math.pi * radius ** <span class="number">2</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> area.__doc__</div></pre></td></tr></table></figure>
+<h3 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h3><p><strong>Python</strong> 使用内建函数来简化类型转换这一工作。<em>注意：2.x版本跟3.x版本有不一样的地方。</em></p>
+<ul>
+<li>整数、字符串、浮点数之间的转换</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Python 2.7.6 环境下</span></div><div class="line"><span class="comment"># 转换为浮点数</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; float(<span class="number">3</span>)</div><div class="line"><span class="number">3.0</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; float(<span class="string">'3'</span>)</div><div class="line"><span class="number">3.0</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; float(<span class="string">'3.2'</span>)</div><div class="line"><span class="number">3.2</span></div><div class="line"></div><div class="line"><span class="comment"># 转换为字符串</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; str(<span class="number">0</span>)</div><div class="line"><span class="string">'0'</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; str(<span class="number">1.2</span>)</div><div class="line"><span class="string">'1.2'</span></div><div class="line"></div><div class="line"><span class="comment"># 转换为整数</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; int(<span class="number">3.8</span>)</div><div class="line"><span class="number">3</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; int(<span class="string">'3'</span>)</div><div class="line"><span class="number">3</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; int(<span class="string">'3.1'</span>)</div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;<span class="class"><span class="keyword">module</span>&gt;</span></div><div class="line"><span class="symbol">ValueError:</span> invalid literal <span class="keyword">for</span> int() with base <span class="number">10</span>: <span class="string">'3.1'</span></div></pre></td></tr></table></figure>
+<ul>
+<li>圆整（总是向上圆整带来的偏差可能导致计算不准确，所以 <strong>3.x</strong>圆整到最接近的偶数）</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;</span>&gt; round(<span class="number">2.1</span>)</div><div class="line"><span class="number">2</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; round(<span class="number">2.5</span>)</div><div class="line"><span class="number">2</span></div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; round(<span class="number">3.1</span>)</div><div class="line"><span class="number">3</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; round(<span class="number">3.5</span>)</div><div class="line"><span class="number">4</span></div></pre></td></tr></table></figure>
+<h3 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h3><ul>
+<li>多重赋值（<strong>JavaScript</strong> 中解构赋值）</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; <span class="selector-tag">a</span>, <span class="selector-tag">b</span>, c = <span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span></div><div class="line">&gt;&gt;&gt; <span class="selector-tag">a</span></div><div class="line"><span class="string">'a'</span></div><div class="line">&gt;&gt;&gt; <span class="selector-tag">b</span></div><div class="line"><span class="string">'b'</span></div></pre></td></tr></table></figure>
+<ul>
+<li>交换变量的值</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; <span class="selector-tag">a</span>, <span class="selector-tag">b</span> = <span class="number">2</span>, <span class="number">5</span></div><div class="line">&gt;&gt;&gt; <span class="selector-tag">a</span></div><div class="line"><span class="number">2</span></div><div class="line">&gt;&gt;&gt; <span class="selector-tag">a</span>, <span class="selector-tag">b</span> = <span class="selector-tag">b</span>, <span class="selector-tag">a</span></div><div class="line">&gt;&gt;&gt; <span class="selector-tag">a</span></div><div class="line"><span class="number">5</span></div></pre></td></tr></table></figure>
+<h3 id="3-x版本中的input函数与2-x版本区别"><a href="#3-x版本中的input函数与2-x版本区别" class="headerlink" title="3.x版本中的input函数与2.x版本区别"></a>3.x版本中的input函数与2.x版本区别</h3><ul>
+<li>3.x 中的 <strong>input</strong>对应于2.x中的 <strong>raw_input</strong>函数</li>
+</ul>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># <span class="number">2.7</span> test.<span class="keyword">py</span></div><div class="line">name = raw_input(<span class="string">'enter your name:'</span>).strip().capitalize()</div><div class="line"><span class="keyword">print</span> <span class="string">'Hello '</span> + name</div><div class="line">$ <span class="keyword">python</span> test.<span class="keyword">py</span></div><div class="line">enter your name:         Carson chen</div><div class="line">Hello Carson chen</div></pre></td></tr></table></figure>
+<ul>
+<li>2.x 中的 <strong>input</strong> 函数，对用户输入的字符串求值</li>
+</ul>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># <span class="number">2.7</span> test.<span class="keyword">py</span></div><div class="line">name = <span class="built_in">input</span>(<span class="string">'enter your name:'</span>).strip().capitalize()</div><div class="line"><span class="keyword">print</span> <span class="string">'Hello '</span> + name</div><div class="line">$ <span class="keyword">python</span> test.<span class="keyword">py</span></div><div class="line">enter your name:Carson</div><div class="line">Traceback (most recent <span class="keyword">call</span> <span class="keyword">last</span>):</div><div class="line">  File <span class="string">"test.py"</span>, <span class="built_in">line</span> <span class="number">1</span>, in <span class="symbol">&lt;module&gt;</span></div><div class="line">    name = <span class="built_in">input</span>(<span class="string">'enter your name:'</span>)</div><div class="line">  File <span class="string">"&lt;string&gt;"</span>, <span class="built_in">line</span> <span class="number">1</span>, in <span class="symbol">&lt;module&gt;</span></div><div class="line">NameError: name <span class="string">'Carson'</span> <span class="keyword">is</span> not defined</div></pre></td></tr></table></figure>
+<h3 id="字符串相关"><a href="#字符串相关" class="headerlink" title="字符串相关"></a>字符串相关</h3><ul>
+<li>负数索引</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;</span>&gt; str = <span class="string">'abc'</span>;</div><div class="line">&gt;&gt;&gt; str[-<span class="number">1</span>]</div><div class="line"><span class="string">'c'</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; str[-<span class="number">3</span>]</div><div class="line"><span class="string">'a'</span></div></pre></td></tr></table></figure>
+<ul>
+<li>查看字符编码：<code>ord(char)</code></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;</span>&gt; ord(<span class="string">'a'</span>)</div><div class="line"><span class="number">97</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; ord(<span class="string">'b'</span>)</div><div class="line"><span class="number">98</span></div></pre></td></tr></table></figure>
+<ul>
+<li>查看编码字符：<code>chr(number)</code></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;</span>&gt; chr(<span class="number">97</span>)</div><div class="line"><span class="string">'a'</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; chr(<span class="number">98</span>)</div><div class="line"><span class="string">'b'</span></div></pre></td></tr></table></figure>
+<p><strong>有始（2016.11.4）有终</strong></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/11/01/Destructuring-in-ES6/" data-toggle="tooltip" data-placement="top" title="Destructuring in ECMAScript 6">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/11/08/datastructures-array/" data-toggle="tooltip" data-placement="top" title="Datastructures of Array in Java && JS">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hexo-theme-huxblog";
+    var disqus_identifier = "carlsiry.io/2016/11/05/i-dont-know-py/";
+    var disqus_url = "carlsiry.io/2016/11/05/i-dont-know-py/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/陈小小生">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/carlsiry">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Awaiting K.I.S.S 2017
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("carlsiry.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="carlsiry.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
